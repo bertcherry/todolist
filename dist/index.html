@@ -7,7 +7,104 @@
     <title>To Do List</title>
 </head>
 <body>
-    <div id="content"></div>
+    <div class="header">
+        <h1 class="title">
+            To Do List
+        </h1>
+    </div>
+
+    <div class="sidebar">
+        <div class="sidebar-section">
+            <h2>Task Views</h2>
+            <ul class="view-list">
+                <li>Due Date</li>
+                <li>Priority</li>
+            </ul>
+            <div>
+                <button id="task-btn">New Task</button> <!--Pulls up task form-->
+            </div>
+        </div>
+        <div class="sidebar-section">
+            <h2>Projects</h2>
+            <ul class="project-list">
+                <!--Populate the li from project array name values as clickable links to select project views-->
+            </ul>
+            <div>
+                <button id="project-btn">New Project</button> <!--Pulls up project form-->
+            </div>
+        </div>
+    </div>
+
+    <div class="tasks">
+        <ul class="task-list">
+            <!--Populate the li from tasks array and any additional selectors to filter the array-->
+        </ul>
+    </div>
+
+    <div class="task-form">
+        <form action="" id="task-form">
+            <div class="help-text">
+                Required fields are marked with <span aria-label="required">*</span>
+            </div>
+            <div class="input-wrapper">
+                <label for="title">Title<span aria-label="required">*</span></label>
+                <input type="text" name="title" id="title" required>
+            </div>
+            <div class="input-wrapper">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" cols="30" rows="10"></textarea>
+            </div>
+            <div class="input-wrapper">
+                <label for="dueDate">Due Date<span aria-label="required">*</span></label>
+                <input type="date" name="dueDate" id="dueDate" required>
+            </div>
+            <div class="input-wrapper">
+                <fieldset>
+                    <legend>Priority</legend>
+                    <div>
+                        <input type="radio" name="priority" id="high" value="high">
+                        <label for="high">High</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="priority" id="medium" value="medium">
+                        <label for="medium">Medium</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="priority" id="low" value="low">
+                        <label for="low">Low</label>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="input-wrapper">
+                <label for="project">Project<span aria-label="required">*</span></label>
+                <select name="project" id="project" required>
+                    <!--Populate project options from projects array as option->value/textContent-->
+                </select>
+            </div>
+            <div class="input-wrapper">
+                <button type="submit">Add Task</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="project-form">
+        <form action="" id="project-form">
+            <div class="help-text">
+                Required fields are marked with <span aria-label="required">*</span>
+            </div>
+            <div class="input-wrapper">
+                <label for="name">Project Name<span aria-label="required">*</span></label>
+                <input type="text" name="name" id="name" required>
+            </div>
+            <div class="input-wrapper">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" cols="30" rows="10"></textarea>
+            </div>
+            <div class="input-wrapper">
+                <button type="submit">Add Project</button>
+            </div>
+        </form>
+    </div>
 </body>
 <script src="main.js"></script>
 </html>
