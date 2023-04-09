@@ -7,36 +7,38 @@
     <title>To Do List</title>
 </head>
 <body>
-    <div class="header">
-        <h1 class="title">
-            To Do List
-        </h1>
-    </div>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">
+                To Do List
+            </h1>
+        </div>
 
-    <div class="sidebar">
-        <div class="sidebar-section">
-            <h2>Task Views</h2>
-            <ul class="view-list">
-                <li>Due Date</li>
-                <li>Priority</li>
-            </ul>
-            <div>
-                <button id="task-btn">New Task</button> <!--Pulls up task form-->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h2>Task Views</h2>
+                <ul class="view-list">
+                    <li>Due Date</li>
+                    <li>Priority</li>
+                </ul>
+                <div>
+                    <button id="task-btn">New Task</button> <!--Pulls up task form-->
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h2>Projects</h2>
+                <ul class="project-list">
+                    <!--Populate the li from project array name values as clickable links to select project views-->
+                </ul>
+                <div>
+                    <button id="project-btn">New Project</button> <!--Pulls up project form-->
+                </div>
             </div>
         </div>
-        <div class="sidebar-section">
-            <h2>Projects</h2>
-            <ul class="project-list">
-                <!--Populate the li from project array name values as clickable links to select project views-->
-            </ul>
-            <div>
-                <button id="project-btn">New Project</button> <!--Pulls up project form-->
-            </div>
-        </div>
-    </div>
 
-    <div class="tasks">
-        <!--Populate as divs from tasks array and any additional selectors to filter the array-->
+        <div class="tasks">
+            <!--Populate as divs from tasks array and any additional selectors to filter the array-->
+        </div>
     </div>
 
     <div class="task-form">
