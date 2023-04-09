@@ -5,9 +5,9 @@ const taskFactory = () => {
     const newTask = {
         title: taskForm.title.value,
         description: taskForm.description.value,
-        dueDate: taskForm.dueDate.value,
-        priority: taskForm.priority.value,
         project: taskForm.project.value,
+        priority: taskForm.priority.value,
+        dueDate: taskForm.dueDate.value,
     };
     taskForm.reset();
     return newTask;
@@ -20,6 +20,7 @@ const tasksDisplay = () => {
     }
     for (const task of tasks) {
         const taskDiv = document.createElement('div');
+        taskDiv.classList.add('task');
         taskList.appendChild(taskDiv);
         for (const property in task) {
             const propertyDiv = document.createElement('div');
