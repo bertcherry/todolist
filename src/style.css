@@ -1,0 +1,47 @@
+*, *:before, *:after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* Dark on any other color */
+    --high: #f4718f;
+    --medium: #ffb60a;
+    --low: #38fac6;
+    --accent: #1fb7ea;
+    --dark: #020f13;
+    --light: #ffffff;
+    --accent-light: #c8eff9;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100vh;
+    width: 100vw;
+    color: var(--dark);
+    background-color: var(--accent-light);
+}
+
+.container {
+    display: grid;
+    grid: 175px 1fr / 250px 1fr;
+    grid-template-areas: 
+        "header header"
+        "sidebar tasks";
+}
+
+.header {
+    grid-area: header;
+    background-color: var(--accent);
+    box-shadow: 0 5px 5px var(--dark);
+}
+
+.sidebar {
+    grid-area: sidebar;
+    box-shadow: 5px 0 5px var(--dark);
+}
+
+.tasks {
+    grid-area: tasks;
+}
