@@ -18,7 +18,7 @@ const projectsDisplay = (listName, type) => {
     for (project of projects) {
         const projectItem = document.createElement(type);
         if (type === 'option') {
-            projectItem.value = project.name.toLowerCase();
+            projectItem.value = project.name;
         }
         projectItem.textContent = project.name;
         projectList.appendChild(projectItem);

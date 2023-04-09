@@ -74,6 +74,31 @@ li {
     grid-area: tasks;
     padding: 20px;
     background-color: var(--light);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.task {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    padding: 10px 20px;
+    border: 1px solid var(--accent);
+    border-radius: 30px;
+}
+
+.task > * {
+    flex: 0 1 100px;
+    text-align: center;
+}
+
+.task > .title {
+    flex: 1 0 20%;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .form-container {
