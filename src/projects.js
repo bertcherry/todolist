@@ -26,8 +26,6 @@ const projectsBuilder = (e) => {
     e.preventDefault();
     projects.push(projectFactory());
     projectSidebar();
-    console.log(projects);
-    return { projects };
 }
 
 export { projectsBuilder, projectSidebar };
