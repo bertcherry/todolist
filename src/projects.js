@@ -6,6 +6,7 @@ const projectFactory = () => {
         name: projectForm.name.value,
         description: projectForm.description.value
     };
+    projectForm.reset();
     return newProject;
 }
 
