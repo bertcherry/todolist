@@ -10,22 +10,30 @@ const projectFactory = () => {
     return newProject;
 }
 
-const projectSidebar = () => {
-    const projectList = document.querySelector('.project-list');
+const projectsDisplay = (listName, type) => {
+    const projectList = document.querySelector(listName);
     while (projectList.firstChild) {
         projectList.removeChild(projectList.lastChild);
     }
     for (project of projects) {
-        const projectItem = document.createElement('li');
+        const projectItem = document.createElement(type);
+        if (type === 'option') {
+            projectItem.value = project.name.toLowerCase();
+        }
         projectItem.textContent = project.name;
         projectList.appendChild(projectItem);
     }
 }
 
+const projectsView = () => {
+    projectsDisplay('.project-list', 'li');
+    projectsDisplay('#project', 'option');
+}
+
 const projectsBuilder = (e) => {
     e.preventDefault();
     projects.push(projectFactory());
-    projectSidebar();
+    projectsView();
 }
 
-export { projectsBuilder, projectSidebar };
+export { projectsBuilder, projectsView };
