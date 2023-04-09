@@ -10,11 +10,24 @@ const projectFactory = () => {
     return newProject;
 }
 
+const projectSidebar = () => {
+    const projectList = document.querySelector('.project-list');
+    while (projectList.firstChild) {
+        projectList.removeChild(projectList.lastChild);
+    }
+    for (project of projects) {
+        const projectItem = document.createElement('li');
+        projectItem.textContent = project.name;
+        projectList.appendChild(projectItem);
+    }
+}
+
 const projectsBuilder = (e) => {
     e.preventDefault();
     projects.push(projectFactory());
+    projectSidebar();
     console.log(projects);
     return { projects };
 }
 
-export { projectsBuilder };
+export { projectsBuilder, projectSidebar };
