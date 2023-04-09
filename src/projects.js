@@ -15,7 +15,7 @@ const projectsDisplay = (listName, type) => {
     while (projectList.firstChild) {
         projectList.removeChild(projectList.lastChild);
     }
-    for (project of projects) {
+    for (const project of projects) {
         const projectItem = document.createElement(type);
         if (type === 'option') {
             projectItem.value = project.name;
