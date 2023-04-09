@@ -13,12 +13,12 @@ const taskFactory = () => {
     return newTask;
 }
 
-const tasksDisplay = () => {
+const tasksDisplay = (tasksView) => {
     const taskList = document.querySelector('.tasks');
     while (taskList.firstChild) {
         taskList.removeChild(taskList.lastChild);
     }
-    for (const task of tasks) {
+    for (const task of tasksView) {
         const taskDiv = document.createElement('div');
         taskDiv.classList.add('task');
         taskList.appendChild(taskDiv);
@@ -34,8 +34,7 @@ const tasksDisplay = () => {
 const tasksBuilder = (e) => {
     e.preventDefault();
     tasks.push(taskFactory());
-    console.log(tasks);
-    tasksDisplay();
+    tasksDisplay(tasks);
 }
 
-export { tasksBuilder };
+export { tasksBuilder, tasks, tasksDisplay };
