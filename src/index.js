@@ -2,7 +2,7 @@ import './style.css';
 import { projectsBuilder, projectsView } from './projects';
 import { tasksBuilder } from './tasks';
 import { showTasks, showProjects } from './forms';
-import { dateView } from './view';
+import { dateView, priorityView } from './view';
 
 const projectForm = document.getElementById('project-form');
 projectForm.addEventListener('submit', projectsBuilder);
@@ -17,6 +17,9 @@ const taskBtn = document.getElementById('task-btn');
 taskBtn.addEventListener('click', showTasks.showForm);
 
 const dateSorter = document.getElementById('date-sort');
-dateSorter.addEventListener('click', dateView);
+dateSorter.addEventListener('click', dateView.sortAscending);
+
+const prioritySorter = document.getElementById('priority-sort');
+prioritySorter.addEventListener('click', priorityView.sortDescending);
 
 projectsView();
