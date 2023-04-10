@@ -154,7 +154,8 @@ li {
     background-color: rgba(0,0,0,.5);
 }
 
-form {
+form, 
+#task-details {
     display: flex;
     flex-direction: column;
     justify-content: space-around;

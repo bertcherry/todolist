@@ -1,5 +1,5 @@
 const formDisplay = (formId) => {
-    const formContainer = document.querySelector('.' + formId);
+    const formContainer = document.getElementById(formId).parentElement;
     
     const showForm = () => {
         formContainer.style.display = 'block';
@@ -17,5 +17,6 @@ const formDisplay = (formId) => {
 
 const showTasks = formDisplay('task-form');
 const showProjects = formDisplay('project-form');
+const showDetails = formDisplay('task-details');
 
-export { showTasks, showProjects };
+export { showTasks, showProjects, showDetails };
