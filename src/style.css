@@ -74,35 +74,73 @@ li {
     grid-area: tasks;
     padding: 20px;
     background-color: var(--light);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 }
 
 .task {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(200px, 1fr) repeat(4, 100px);
+    grid-template-areas: 
+        "title project priority date details";
     gap: 5px;
     padding: 10px 20px;
-    border: 1px solid var(--accent);
+    border: 2px solid var(--accent);
     border-radius: 30px;
 }
 
-.task > * {
-    flex: 0 1 100px;
+.task-heading {
+    display: grid;
+    grid-template-columns: minmax(200px, 1fr) repeat(4, 100px);
+    grid-template-areas: 
+        "title project priority date details";
+    gap: 5px;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.task > *,
+.task-heading > * {
     text-align: center;
 }
 
-.task > .title {
-    flex: 1 0 20%;
+.tasks > div > .title {
+    grid-area: title;
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+.tasks > div > .project {
+    grid-area: project;
+}
+
+.tasks > div > .priority {
+    grid-area: priority;
+}
+
+.tasks > div > .dueDate {
+    grid-area: date;
+}
+
+.tasks > div > button {
+    grid-area: details;
+}
+
+.priority-high {
+    background: linear-gradient(.45turn, var(--high), var(--light) 30%);
+}
+
+.priority-medium {
+    background: linear-gradient(.45turn, var(--medium), var(--light) 30%);
+}
+
+.priority-low {
+    background: linear-gradient(.45turn, var(--low), var(--light) 30%);
+}
+
 .form-container {
-    /* Visibility toggles on new book button */
+    /* Visibility toggles on button */
     display: none;
     position: fixed;
     top: 0;
