@@ -41,7 +41,4 @@ const filterFactory = (property, value) => {
 const dateView = sortFactory('dueDate', 'title');
 const priorityView = sortFactory('priority', 'dueDate');
 
-//fix this to filter by input projects
-const filterProject = filterFactory('project', 'General');
-
-export { dateView, priorityView, filterProject };
+export { dateView, priorityView, filterFactory };

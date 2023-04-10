@@ -1,4 +1,4 @@
-import { filterProject } from "./view";
+import { filterFactory } from "./view";
 
 const projects = [{name: 'General', description: 'Default project'}]
 
@@ -29,7 +29,7 @@ const projectsDisplay = (listName, type) => {
             projectLink.id = project.name;
             projectLink.textContent = project.name;
             projectItem.appendChild(projectLink);
-            projectLink.addEventListener('click', filterProject.filterTasks);
+            projectLink.addEventListener('click', filterFactory('project', project.name).filterTasks);
         }
         projectList.appendChild(projectItem);
     }
