@@ -74,6 +74,9 @@ li {
     grid-area: tasks;
     padding: 20px;
     background-color: var(--light);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .task {
