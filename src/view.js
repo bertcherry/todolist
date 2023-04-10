@@ -6,7 +6,6 @@ const sortFactory = (primary, secondary) => {
         e.preventDefault();
         const tasksSorted = [...tasks];
         tasksSorted.sort((a, b) => (a[primary] > b[primary]) ? 1 : (a[primary] === b[primary]) ? ((a[secondary] > b[secondary]) ? 1 : -1) : -1);
-        console.log(tasksSorted);
         tasksDisplay(tasksSorted);
     };
 
@@ -14,14 +13,35 @@ const sortFactory = (primary, secondary) => {
         e.preventDefault();
         const tasksSorted = [...tasks];
         tasksSorted.sort((a, b) => (a[primary] < b[primary]) ? 1 : (a[primary] === b[primary]) ? ((a[secondary] > b[secondary]) ? 1 : -1) : -1);
-        console.log(tasksSorted);
         tasksDisplay(tasksSorted);
     };
 
     return { sortAscending, sortDescending };
 };
 
+const filterFactory = (property, value) => {
+    const isValue = (task) => {
+            if (`${task[property]}` === `${value}`) {
+                return true;
+            }
+            return false;
+    }
+    
+    const filterTasks = (e) => {
+        e.preventDefault();
+        let tasksFiltered = [...tasks];
+        tasksFiltered = tasksFiltered.filter(isValue);
+        console.log(tasksFiltered);
+        tasksDisplay(tasksFiltered);
+    }
+
+    return { filterTasks };
+}
+
 const dateView = sortFactory('dueDate', 'title');
 const priorityView = sortFactory('priority', 'dueDate');
 
-export { dateView, priorityView };
+//fix this to filter by input projects
+const filterProject = filterFactory('project', 'General');
+
+export { dateView, priorityView, filterProject };

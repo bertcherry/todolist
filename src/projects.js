@@ -1,3 +1,5 @@
+import { filterProject } from "./view";
+
 const projects = [{name: 'General', description: 'Default project'}]
 
 const projectFactory = () => {
@@ -19,8 +21,16 @@ const projectsDisplay = (listName, type) => {
         const projectItem = document.createElement(type);
         if (type === 'option') {
             projectItem.value = project.name;
+            projectItem.textContent = project.name;
         }
-        projectItem.textContent = project.name;
+        if (type === 'li') {
+            const projectLink = document.createElement('a');
+            projectLink.setAttribute('href', '');
+            projectLink.id = project.name;
+            projectLink.textContent = project.name;
+            projectItem.appendChild(projectLink);
+            projectLink.addEventListener('click', filterProject.filterTasks);
+        }
         projectList.appendChild(projectItem);
     }
 }
