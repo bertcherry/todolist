@@ -1,6 +1,8 @@
 import { tasks, tasksDisplay } from './tasks';
+import { editValue } from './forms';
+import { iconFactory } from './projects';
+import pencilIcon from './pencil.svg';
 
-//need to figure out how to get the array sorter to read the primary and secondary values passed to it as a factory element
 const sortFactory = (primary, secondary) => {
     const sortAscending = (e) => {
         e.preventDefault();
@@ -37,11 +39,11 @@ const filterFactory = (property, value) => {
     return { filterTasks };
 }
 
-const generateTitles = (property, propertyDiv) => {
+const generateTitles = (property, propertyName) => {
     if (`${property}` === 'dueDate') {
-        propertyDiv.textContent = 'Due Date';
+        propertyName.textContent = 'Due Date';
     } else {
-        propertyDiv.textContent = capitalizeProperty(property);
+        propertyName.textContent = capitalizeProperty(property);
     }
 }
 
@@ -53,23 +55,31 @@ const capitalizeProperty = (property) => {
 
 const displayDetails = (index, array) => {
     const item = array.at(index);
-    console.log(item);
     const detailsDiv = document.getElementById('details');
         while (detailsDiv.firstChild) {
             detailsDiv.removeChild(detailsDiv.lastChild);
         }
         for (const property in item) {
             const propertyDiv = document.createElement('div');
+            if (item.dueDate != undefined) {
+                propertyDiv.classList.add('tasks');
+                propertyDiv.id = index;
+            } else {
+                propertyDiv.classList.add('projects');
+                propertyDiv.id = index;
+            }
             const propertyName = document.createElement('div');
-            generateTitles(property, propertyDiv);
+            generateTitles(property, propertyName);
             const propertyValue = document.createElement('div');
             propertyValue.textContent = `${item[property]}`;
             detailsDiv.appendChild(propertyDiv);
             propertyDiv.appendChild(propertyName);
             propertyDiv.appendChild(propertyValue);
+            propertyDiv.appendChild(iconFactory('edit', pencilIcon, editValue, property));
         }
 }
 
+//store and input last display whether filtered tasks or sorted tasks. sort a filitered array?
 const dateView = sortFactory('dueDate', 'title');
 const priorityView = sortFactory('priority', 'dueDate');
 

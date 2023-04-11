@@ -28,6 +28,7 @@ const projectsDisplay = (listName, type) => {
         }
         if (type === 'li') {
             const projectDiv = document.createElement('div');
+            projectDiv.id = project.name;
             const projectLink = document.createElement('a');
             projectLink.setAttribute('href', '');
             projectLink.id = project.name;
@@ -42,17 +43,22 @@ const projectsDisplay = (listName, type) => {
     }
 }
 
-const iconFactory = (type, reference, action, project) => {
+const iconFactory = (type, reference, action, focus) => {
     const btn = document.createElement('button');
     btn.classList.add(type + '-btn');
     btn.setAttribute('aria-label', type);
-    btn.id = project.name;
     const img = document.createElement('img');
     img.src = reference;
-    img.id = project.name;
     btn.appendChild(img);
-    if (projects.length == 1 && projects.indexOf(project) == 0 && type == 'delete') {
-        btn.disabled = true;
+    if (typeof focus == 'object') {
+        btn.id = focus.name;
+        img.id = focus.name;
+        if (projects.length == 1 && projects.indexOf(focus) == 0 && type == 'delete' && focus.dueDate == undefined) {
+            btn.disabled = true;
+        }
+    } else {
+        btn.id = focus;
+        img.id = focus;
     }
     btn.addEventListener('click', action);
     return btn;
@@ -83,4 +89,4 @@ const projectsBuilder = (e) => {
     projectsView();
 }
 
-export { projectsBuilder, projectsView, editProject };
+export { projectsBuilder, projectsView, editProject, iconFactory, projects };

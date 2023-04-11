@@ -2,6 +2,7 @@ import { showDetails } from "./forms";
 import { displayDetails, generateTitles } from "./view";
 
 const tasks = [];
+let lastTaskView = null;
 
 const taskFactory = () => {
     const taskForm = document.getElementById('task-form');
@@ -53,6 +54,8 @@ const tasksDisplay = (tasksView) => {
         detailsBtn.textContent = 'Details';
         taskDiv.appendChild(detailsBtn);
     }
+    lastTaskView = tasksView;
+    return lastTaskView;
 }
 
 const createTaskHeading = () => {
@@ -81,4 +84,4 @@ const detailsFactory = (btnId) => {
     displayDetails(taskId, tasks);
 }
 
-export { tasksBuilder, tasks, tasksDisplay, detailsFactory };
+export { tasksBuilder, tasks, tasksDisplay, lastTaskView, detailsFactory};
