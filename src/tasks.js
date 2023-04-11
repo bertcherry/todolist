@@ -48,8 +48,6 @@ const tasksDisplay = (tasksView) => {
         }
         const detailsBtn = document.createElement('button');
         detailsBtn.id = 'task-' + tasks.indexOf(task);
-        //call in proper order to generate this content for the appropriate click
-        //const details = detailsFactory(detailsBtn.id);
         detailsBtn.addEventListener('click', showDetails.showForm);
         detailsBtn.textContent = 'Details';
         taskDiv.appendChild(detailsBtn);
@@ -108,7 +106,6 @@ const detailsFactory = (btnId) => {
             propertyDiv.appendChild(propertyName);
             propertyDiv.appendChild(propertyValue);
         }
-    //detailsDiv.parentElement.style.display = 'block';
 }
 
 export { tasksBuilder, tasks, tasksDisplay, detailsFactory };
