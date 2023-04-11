@@ -1,4 +1,5 @@
 import { showDetails } from "./forms";
+import { displayDetails, generateTitles } from "./view";
 
 const tasks = [];
 
@@ -69,20 +70,6 @@ const createTaskHeading = () => {
     return taskHeading;
 }
 
-const generateTitles = (property, propertyDiv) => {
-    if (`${property}` === 'dueDate') {
-        propertyDiv.textContent = 'Due Date';
-    } else {
-        propertyDiv.textContent = capitalizeProperty(property);
-    }
-}
-
-const capitalizeProperty = (property) => {
-    const propertyVar = `${property}`;
-    const propertyName = propertyVar.charAt(0).toUpperCase() + propertyVar.slice(1);
-    return propertyName;
-}
-
 const tasksBuilder = (e) => {
     e.preventDefault();
     tasks.push(taskFactory());
@@ -91,21 +78,7 @@ const tasksBuilder = (e) => {
 
 const detailsFactory = (btnId) => {
     const taskId = btnId.slice(5);
-    const task = tasks.at(taskId);
-    const detailsDiv = document.getElementById('task-details');
-        while (detailsDiv.firstChild) {
-            detailsDiv.removeChild(detailsDiv.lastChild);
-        }
-        for (const property in task) {
-            const propertyDiv = document.createElement('div');
-            const propertyName = document.createElement('div');
-            generateTitles(property, propertyDiv);
-            const propertyValue = document.createElement('div');
-            propertyValue.textContent = `${task[property]}`;
-            detailsDiv.appendChild(propertyDiv);
-            propertyDiv.appendChild(propertyName);
-            propertyDiv.appendChild(propertyValue);
-        }
+    displayDetails(taskId, tasks);
 }
 
 export { tasksBuilder, tasks, tasksDisplay, detailsFactory };

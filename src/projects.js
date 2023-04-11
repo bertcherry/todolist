@@ -1,4 +1,5 @@
-import { filterFactory } from "./view";
+import { displayDetails, filterFactory } from "./view";
+import { showDetails } from "./forms";
 import pencilIcon from './pencil.svg';
 import deleteIcon from './delete.svg';
 
@@ -33,10 +34,8 @@ const projectsDisplay = (listName, type) => {
             projectLink.textContent = project.name;
             projectDiv.appendChild(projectLink);
             projectLink.addEventListener('click', filterFactory('project', project.name).filterTasks);
-            if (projects.indexOf(project) != 0) {
-                projectDiv.appendChild(iconFactory('delete', deleteIcon, deleteProject, project));
-            }
-            //projectLink.appendChild(iconFactory('edit', editIcon, editProject));
+            projectDiv.appendChild(iconFactory('edit', pencilIcon, showDetails.showForm, project));
+            projectDiv.appendChild(iconFactory('delete', deleteIcon, deleteProject, project));
             projectItem.appendChild(projectDiv);
         }
         projectList.appendChild(projectItem);
@@ -52,18 +51,25 @@ const iconFactory = (type, reference, action, project) => {
     img.src = reference;
     img.id = project.name;
     btn.appendChild(img);
+    if (projects.length == 1 && projects.indexOf(project) == 0 && type == 'delete') {
+        btn.disabled = true;
+    }
     btn.addEventListener('click', action);
     return btn;
 }
 
 const deleteProject = (e) => {
     const projectId = e.target.id;
-    console.log(projectId);
     const index = projects.map(i => i.name).indexOf(`${projectId}`);
-    if (index > 0) {
+    if (index > -1) {
         projects.splice(index, 1);
     }
     projectsView();
+}
+
+const editProject = (btnId) => {
+    const index = projects.map(i => i.name).indexOf(`${btnId}`);
+    displayDetails(index, projects);
 }
 
 const projectsView = () => {
@@ -77,4 +83,4 @@ const projectsBuilder = (e) => {
     projectsView();
 }
 
-export { projectsBuilder, projectsView };
+export { projectsBuilder, projectsView, editProject };

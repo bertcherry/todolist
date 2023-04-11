@@ -37,7 +37,40 @@ const filterFactory = (property, value) => {
     return { filterTasks };
 }
 
+const generateTitles = (property, propertyDiv) => {
+    if (`${property}` === 'dueDate') {
+        propertyDiv.textContent = 'Due Date';
+    } else {
+        propertyDiv.textContent = capitalizeProperty(property);
+    }
+}
+
+const capitalizeProperty = (property) => {
+    const propertyVar = `${property}`;
+    const propertyName = propertyVar.charAt(0).toUpperCase() + propertyVar.slice(1);
+    return propertyName;
+}
+
+const displayDetails = (index, array) => {
+    const item = array.at(index);
+    console.log(item);
+    const detailsDiv = document.getElementById('details');
+        while (detailsDiv.firstChild) {
+            detailsDiv.removeChild(detailsDiv.lastChild);
+        }
+        for (const property in item) {
+            const propertyDiv = document.createElement('div');
+            const propertyName = document.createElement('div');
+            generateTitles(property, propertyDiv);
+            const propertyValue = document.createElement('div');
+            propertyValue.textContent = `${item[property]}`;
+            detailsDiv.appendChild(propertyDiv);
+            propertyDiv.appendChild(propertyName);
+            propertyDiv.appendChild(propertyValue);
+        }
+}
+
 const dateView = sortFactory('dueDate', 'title');
 const priorityView = sortFactory('priority', 'dueDate');
 
-export { dateView, priorityView, filterFactory };
+export { dateView, priorityView, filterFactory, displayDetails, generateTitles };
