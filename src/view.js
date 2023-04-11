@@ -3,22 +3,22 @@ import { editValue } from './forms';
 import { iconFactory } from './projects';
 import pencilIcon from './pencil.svg';
 
-const sortFactory = (primary, secondary) => {
-    const sortAscending = (e) => {
-        e.preventDefault();
-        const tasksSorted = [...tasks];
-        tasksSorted.sort((a, b) => (a[primary] > b[primary]) ? 1 : (a[primary] === b[primary]) ? ((a[secondary] > b[secondary]) ? 1 : -1) : -1);
-        tasksDisplay(tasksSorted);
-    };
+const sortDate = (e) => {
+    e.preventDefault();
+    const tasksDate = [...tasks];
+    tasksDate.sort((a, b) => (a.dueDate > b.dueDate) ? 1 : (a.dueDate === b.dueDate) ? ((a.priority < b.priority) ? 1 : -1) : -1);
+    tasksDisplay(tasksDate);
+    
+    const getDisplay = () => tasksDate;
+};
 
-    const sortDescending = (e) => {
-        e.preventDefault();
-        const tasksSorted = [...tasks];
-        tasksSorted.sort((a, b) => (a[primary] < b[primary]) ? 1 : (a[primary] === b[primary]) ? ((a[secondary] > b[secondary]) ? 1 : -1) : -1);
-        tasksDisplay(tasksSorted);
-    };
-
-    return { sortAscending, sortDescending };
+const sortPriority = (e) => {
+    e.preventDefault();
+    const tasksPriority = [...tasks];
+    tasksPriority.sort((a, b) => (a.priority < b.priority) ? 1 : (a.priority === b.priority) ? ((a.dueDate > b.dueDate) ? 1 : -1) : -1);
+    tasksDisplay(tasksPriority);
+    
+    const getDisplay = () => tasksPriority;
 };
 
 const filterFactory = (property, value) => {
@@ -79,8 +79,4 @@ const displayDetails = (index, array) => {
         }
 }
 
-//store and input last display whether filtered tasks or sorted tasks. sort a filitered array?
-const dateView = sortFactory('dueDate', 'title');
-const priorityView = sortFactory('priority', 'dueDate');
-
-export { dateView, priorityView, filterFactory, displayDetails, generateTitles };
+export { filterFactory, displayDetails, generateTitles, sortDate, sortPriority };

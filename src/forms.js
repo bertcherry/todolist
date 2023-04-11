@@ -1,7 +1,7 @@
 import { detailsFactory, tasks, tasksDisplay, lastTaskView } from "./tasks";
 import { editProject, iconFactory, projects, projectsView } from "./projects";
 import saveIcon from './save.svg';
-import { displayDetails } from "./view";
+import { displayDetails, sortDate, sortPriority } from "./view";
 
 const formDisplay = (formId) => {
     const formContainer = document.getElementById(formId).parentElement;
@@ -77,6 +77,10 @@ const saveValue = (e) => {
     } else if (array == tasks) {
         if (lastTaskView == null) {
             tasksDisplay(tasks);
+        } else if (lastTaskView == sortDate.getDisplay) {
+            sortDate();
+        } else if (lastTaskView == sortPriority.getDisplay) {
+            sortPriority();
         } else {
             tasksDisplay(lastTaskView);
         }
