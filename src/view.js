@@ -31,7 +31,6 @@ const filterFactory = (property, value) => {
         e.preventDefault();
         let tasksFiltered = [...tasks];
         tasksFiltered = tasksFiltered.filter(isValue);
-        console.log(tasksFiltered);
         tasksDisplay(tasksFiltered);
     }
 
