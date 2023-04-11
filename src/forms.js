@@ -1,7 +1,15 @@
+import { detailsFactory } from "./tasks";
+
 const formDisplay = (formId) => {
     const formContainer = document.getElementById(formId).parentElement;
     
-    const showForm = () => {
+    const showForm = (e) => {
+        let btnId = e.target.id.toString();
+        if (btnId == undefined) {
+
+        } else if (btnId.slice(0,4) == 'task') {
+            detailsFactory(btnId);
+        }
         formContainer.style.display = 'block';
         formContainer.addEventListener('click', hideForm);
     }

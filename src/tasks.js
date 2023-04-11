@@ -29,7 +29,6 @@ const tasksDisplay = (tasksView) => {
             const propertyDiv = document.createElement('div');
             propertyDiv.classList.add(`${property}`);
             if (`${property}` === 'priority') {
-                console.log(`${task[property]}`);
                 if (`${task[property]}` === '3') {
                     propertyDiv.textContent = 'High';
                     taskDiv.classList.add('priority-high');
@@ -49,7 +48,8 @@ const tasksDisplay = (tasksView) => {
         }
         const detailsBtn = document.createElement('button');
         detailsBtn.id = 'task-' + tasks.indexOf(task);
-        const btnDetails = detailsFactory(detailsBtn.id);
+        //call in proper order to generate this content for the appropriate click
+        //const details = detailsFactory(detailsBtn.id);
         detailsBtn.addEventListener('click', showDetails.showForm);
         detailsBtn.textContent = 'Details';
         taskDiv.appendChild(detailsBtn);
@@ -95,21 +95,20 @@ const detailsFactory = (btnId) => {
     const taskId = btnId.slice(5);
     const task = tasks.at(taskId);
     const detailsDiv = document.getElementById('task-details');
-    while (detailsDiv.firstChild) {
-        detailsDiv.removeChild(detailsDiv.lastChild);
-    }
-    for (const property in task) {
-        console.log(property);
-        const propertyDiv = document.createElement('div');
-        const propertyName = document.createElement('div');
-        generateTitles(property, propertyDiv);
-        const propertyValue = document.createElement('div');
-        propertyValue.textContent = `${task[property]}`;
-        detailsDiv.appendChild(propertyDiv);
-        propertyDiv.appendChild(propertyName);
-        propertyDiv.appendChild(propertyValue);
-    }
+        while (detailsDiv.firstChild) {
+            detailsDiv.removeChild(detailsDiv.lastChild);
+        }
+        for (const property in task) {
+            const propertyDiv = document.createElement('div');
+            const propertyName = document.createElement('div');
+            generateTitles(property, propertyDiv);
+            const propertyValue = document.createElement('div');
+            propertyValue.textContent = `${task[property]}`;
+            detailsDiv.appendChild(propertyDiv);
+            propertyDiv.appendChild(propertyName);
+            propertyDiv.appendChild(propertyValue);
+        }
     //detailsDiv.parentElement.style.display = 'block';
 }
 
-export { tasksBuilder, tasks, tasksDisplay };
+export { tasksBuilder, tasks, tasksDisplay, detailsFactory };
