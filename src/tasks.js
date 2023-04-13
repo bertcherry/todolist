@@ -1,14 +1,10 @@
-import { showDetails } from "./forms";
+import { refreshTasks, showDetails } from "./forms";
 import { displayDetails, generateTitles } from "./view";
-import { getProjects, getTasks, storeTasks } from "./storage";
+import { getProjects, getCount, getTasks, storeTasks } from "./storage";
+import { iconFactory } from "./projects";
+import checkboxIcon from './checkbox.svg';
 
 const tasks = [];
-
-const counter = () => {
-    let count = 0;
-    count++;
-    return count;
-}
 
 const taskFactory = () => {
     const taskForm = document.getElementById('task-form');
@@ -16,10 +12,10 @@ const taskFactory = () => {
         title: taskForm.title.value,
         description: taskForm.description.value,
         project: taskForm.project.value,
-        projectId: getProjects().at(getProjects().map(i => i.projectId).indexOf(taskForm.project.value)).projectId,
+        projectId: getProjects().at(getProjects().map(i => i.name).indexOf(taskForm.project.value)).projectId,
         priority: taskForm.priority.value,
         dueDate: taskForm.dueDate.value,
-        taskId: counter().toString()
+        taskId: getCount().toString()
     };
     taskForm.reset();
     return newTask;
@@ -32,10 +28,13 @@ const tasksDisplay = (tasksView) => {
     }
     taskList.appendChild(createTaskHeading());
     for (const task of tasksView) {
+        const taskContainer = document.createElement('div');
+        taskContainer.classList.add('task-container');
+        taskContainer.appendChild(iconFactory('check', checkboxIcon, deleteTask, task.taskId));
         const taskDiv = document.createElement('div');
         taskDiv.classList.add('task');
-        taskList.appendChild(taskDiv);
-        console.log(task.taskId);
+        taskContainer.appendChild(taskDiv);
+        taskList.appendChild(taskContainer);
         for (const property in task) {
             const propertyDiv = document.createElement('div');
             propertyDiv.classList.add(`${property}`);
@@ -58,6 +57,7 @@ const tasksDisplay = (tasksView) => {
             taskDiv.appendChild(propertyDiv);
         }
         const detailsBtn = document.createElement('button');
+        detailsBtn.classList.add('details-btn');
         detailsBtn.id = 'task-' + task.taskId;
         detailsBtn.addEventListener('click', showDetails.showForm);
         detailsBtn.textContent = 'Details';
@@ -80,6 +80,16 @@ const createTaskHeading = () => {
     return taskHeading;
 }
 
+const deleteTask = (e) => {
+    const task = e.currentTarget.id;
+    const index = getTasks().map(i => i.taskId).indexOf(`${task}`);
+    console.log(index);
+    if (index > -1) {
+        getTasks().splice(index, 1);
+    }
+    refreshTasks();
+}
+
 const tasksBuilder = (e) => {
     e.preventDefault();
     tasks.push(taskFactory());
@@ -93,4 +103,4 @@ const detailsFactory = (btnId) => {
     displayDetails(index, getTasks());
 }
 
-export { tasksBuilder, tasks, tasksDisplay, detailsFactory};
+export { tasksBuilder, tasks, tasksDisplay, detailsFactory, deleteTask };

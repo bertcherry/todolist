@@ -83,12 +83,20 @@ img {
     gap: 10px;
 }
 
+.task-container {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    grid-template-areas: 
+        "checkbox task";
+    gap: 5px;
+}
+
 .task {
+    grid-area: task;
     display: grid;
     grid-template-columns: minmax(200px, 1fr) repeat(4, 100px);
     grid-template-areas: 
         "title project priority date details";
-    gap: 5px;
     padding: 10px 20px;
     border: 2px solid var(--accent);
     border-radius: 30px;
@@ -96,9 +104,9 @@ img {
 
 .task-heading {
     display: grid;
-    grid-template-columns: minmax(200px, 1fr) repeat(4, 100px);
+    grid-template-columns: 50px minmax(200px, 1fr) repeat(4, 100px);
     grid-template-areas: 
-        "title project priority date details";
+        "checkbox title project priority date details";
     gap: 5px;
     padding: 10px 20px;
     font-size: 1.1rem;
@@ -110,7 +118,20 @@ img {
     text-align: center;
 }
 
-.tasks > div > .title {
+.check-btn {
+    grid-area: checkbox;
+    appearance: none;
+    background-color: var(--light);
+    border: none;
+    padding: none;
+    height: 44px;
+}
+
+.check-btn > img {
+    height: 44px;
+}
+
+.title {
     grid-area: title;
     text-align: left;
     white-space: nowrap;
@@ -118,19 +139,19 @@ img {
     text-overflow: ellipsis;
 }
 
-.tasks > div > .project {
+.project {
     grid-area: project;
 }
 
-.tasks > div > .priority {
+.priority {
     grid-area: priority;
 }
 
-.tasks > div > .dueDate {
+.dueDate {
     grid-area: date;
 }
 
-.tasks > div > button {
+.details-btn {
     grid-area: details;
 }
 

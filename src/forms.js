@@ -49,6 +49,21 @@ const editValue = (e) => {
     value.parentElement.appendChild(iconFactory('save', saveIcon, saveValue, input.id));
 }
 
+const refreshTasks = () => {
+    storeTasks();
+    if (lastTaskView == null) {
+        tasksDisplay(getTasks());
+    } else if (lastTaskView == 'date') {
+        sortDate();
+    } else if (lastTaskView == 'priority') {
+        sortPriority();
+    } else if (lastTaskView.slice(0,7) == 'project') {
+        filterFactory('projectId', lastTaskView.slice(8));
+    } else {
+        tasksDisplay(getTasks());
+    }
+}
+
 const saveValue = (e) => {
     let property = e.currentTarget.id;
     let array = e.currentTarget.parentElement.getAttribute('class');
@@ -78,19 +93,7 @@ const saveValue = (e) => {
         storeProjects();
         projectsView();
     } else if (array == tasks) {
-        storeTasks();
-        console.log(lastTaskView);
-        if (lastTaskView == null) {
-            tasksDisplay(getTasks());
-        } else if (lastTaskView == 'date') {
-            sortDate();
-        } else if (lastTaskView == 'priority') {
-            sortPriority();
-        } else if (lastTaskView.slice(0,7) == 'project') {
-            filterFactory('projectId', lastTaskView.slice(8));
-        } else {
-            tasksDisplay(getTasks());
-        }
+        refreshTasks();
     }
     displayDetails(index, array);
 }
@@ -99,4 +102,4 @@ const showTasks = formDisplay('task-form');
 const showProjects = formDisplay('project-form');
 const showDetails = formDisplay('details');
 
-export { showTasks, showProjects, showDetails, editValue };
+export { showTasks, showProjects, showDetails, editValue, refreshTasks };
