@@ -28,6 +28,16 @@ const storageAvailable = (type) => {
     }
 }
 
+let count = 0;
+const getCount = () => {
+    storeData('count', count);
+    console.log(count);
+    getData('count', count);
+    count++;
+    storeData('count', count);
+    return count;
+}
+
 const storeData = (name, value) => {
     if (storageAvailable('localStorage')) {
         localStorage.setItem(name, JSON.stringify(value));
@@ -51,5 +61,5 @@ const storeProjects = () => storeData('projects', projects);
 const getTasks = () => getData('tasks', tasks);
 const getProjects = () => getData('projects', projects);
 
-export { storeTasks, storeProjects, getTasks, getProjects };
+export { storeTasks, storeProjects, getTasks, getProjects, getCount };
   

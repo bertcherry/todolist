@@ -3,7 +3,7 @@ import { projectsBuilder, projectsView } from './projects';
 import { tasksBuilder, tasksDisplay } from './tasks';
 import { showTasks, showProjects } from './forms';
 import { sortDate, sortPriority } from './view';
-import { getProjects, getTasks } from './storage';
+import { getCount, getProjects, getTasks } from './storage';
 
 const projectForm = document.getElementById('project-form');
 projectForm.addEventListener('submit', projectsBuilder);
@@ -23,7 +23,7 @@ dateSorter.addEventListener('click', sortDate);
 const prioritySorter = document.getElementById('priority-sort');
 prioritySorter.addEventListener('click', sortPriority);
 
-
+getCount();
 getProjects();
 tasksDisplay(getTasks());
 projectsView();

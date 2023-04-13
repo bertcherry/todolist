@@ -2,22 +2,16 @@ import { displayDetails, filterFactory } from "./view";
 import { showDetails } from "./forms";
 import pencilIcon from './pencil.svg';
 import deleteIcon from './delete.svg';
-import { storeProjects, getProjects } from "./storage";
+import { storeProjects, getProjects, getCount } from "./storage";
 
-const projects = [{name: 'General', description: 'Default project', projectId: '1'}]
-
-const counter = () => {
-    let count = 1;
-    count++;
-    return count;
-}
+const projects = [{name: 'General', description: 'Default project', projectId: '1'}];
 
 const projectFactory = () => {
     const projectForm = document.getElementById('project-form');
     const newProject = {
         name: projectForm.name.value,
         description: projectForm.description.value,
-        projectId: counter().toString()
+        projectId: getCount().toString()
     };
     projectForm.reset();
     return newProject;
