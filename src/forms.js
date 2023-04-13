@@ -1,8 +1,8 @@
-import { detailsFactory, tasks, tasksDisplay } from "./tasks";
-import { editProject, iconFactory, projects, projectsView } from "./projects";
+import { detailsFactory, tasksDisplay } from "./tasks";
+import { editProject, iconFactory, projects, projectsView, projectsDisplay } from "./projects";
 import saveIcon from './save.svg';
 import { displayDetails, sortDate, sortPriority, lastTaskView, filterFactory } from "./view";
-import { getProjects, storeProjects, getTasks, storeTasks } from "./storage";
+import { getProjects, storeData, getTasks } from "./storage";
 
 const formDisplay = (formId) => {
     const formContainer = document.getElementById(formId).parentElement;
@@ -29,28 +29,49 @@ const formDisplay = (formId) => {
     return { showForm };
 }
 
+const editText = (key, value, text) => {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'text');
+    input.setAttribute('name', key);
+    input.id = key;
+    input.setAttribute('placeholder', text);
+    value.appendChild(input);
+}
+
+const editTextArea = (key, value, text) => {
+    const input = document.createElement('textarea');
+    input.setAttribute('cols', '30');
+    input.setAttribute('rows', '10');
+    input.id = key;
+    input.setAttribute('placeholder', text);
+    value.appendChild(input);
+}
+
+const editSelector = (key, value, text) => {
+    const input = document.createElement('select');
+    input.setAttribute('name', key);
+    input.id = key;
+    projectsDisplay('#edit-project', 'option');
+    value.appendChild(input);
+}
+
 const editValue = (e) => {
     const value = e.currentTarget.previousSibling;
-    let input;
-    if (e.currentTarget.id == 'description') {
-        input = document.createElement('textarea');
-        input.setAttribute('cols', '30');
-        input.setAttribute('rows', '10');
-    } else {
-        input = document.createElement('input');
-        input.setAttribute('type', 'text');
-    }
-    input.setAttribute('name', e.currentTarget.id);
-    input.id = e.currentTarget.id;
-    input.setAttribute('placeholder', value.textContent);
+    const text = value.textContent;
+    const key = 'edit-' + e.currentTarget.id;
     value.textContent = '';
-    value.appendChild(input);
     value.parentElement.removeChild(value.parentElement.lastChild);
-    value.parentElement.appendChild(iconFactory('save', saveIcon, saveValue, input.id));
+    if (key == 'edit-description') {
+        editTextArea(key, value, text);
+    } else if (key == 'edit-project') {
+        editSelector(key, value, text);
+    } else {
+        editText(key, value, text);
+    }
+    value.parentElement.appendChild(iconFactory('save', saveIcon, saveValue, key));
 }
 
 const refreshTasks = () => {
-    storeTasks();
     if (lastTaskView == null) {
         tasksDisplay(getTasks());
     } else if (lastTaskView == 'date') {
@@ -65,13 +86,13 @@ const refreshTasks = () => {
 }
 
 const saveValue = (e) => {
-    let property = e.currentTarget.id;
+    let property = e.currentTarget.id.slice(5);
     let array = e.currentTarget.parentElement.getAttribute('class');
+    const projects = getProjects();
+    const tasks = getTasks();
     if (array == 'projects') {
-        getProjects();
         array = projects;
     } else if (array == 'tasks') {
-        getTasks();
         array = tasks;
     }
     const index = e.currentTarget.parentElement.id;
@@ -90,9 +111,10 @@ const saveValue = (e) => {
         array[index].dueDate = value;
     }
     if (array == projects) {
-        storeProjects();
+        storeData('projects', projects);
         projectsView();
     } else if (array == tasks) {
+        storeData('tasks', tasks);
         refreshTasks();
     }
     displayDetails(index, array);

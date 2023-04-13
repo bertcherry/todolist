@@ -2,7 +2,7 @@ import { displayDetails, filterFactory } from "./view";
 import { showDetails } from "./forms";
 import pencilIcon from './pencil.svg';
 import deleteIcon from './delete.svg';
-import { storeProjects, getProjects, getCount } from "./storage";
+import { storeData, getProjects, getCount } from "./storage";
 
 const projects = [{name: 'General', description: 'Default project', projectId: '1'}];
 
@@ -36,7 +36,6 @@ const projectsDisplay = (listName, type) => {
             projectLink.id = project.name;
             projectLink.textContent = project.name;
             projectDiv.appendChild(projectLink);
-            //filter using projectId instead of name
             projectLink.addEventListener('click', filterFactory('projectId', project.projectId).filterTasks);
             projectDiv.appendChild(iconFactory('edit', pencilIcon, showDetails.showForm, project));
             projectDiv.appendChild(iconFactory('delete', deleteIcon, deleteProject, project));
@@ -69,11 +68,12 @@ const iconFactory = (type, reference, action, focus) => {
 
 const deleteProject = (e) => {
     const projectId = e.target.id;
+    const projects = getProjects();
     const index = projects.map(i => i.name).indexOf(`${projectId}`);
     if (index > -1) {
         projects.splice(index, 1);
     }
-    storeProjects();
+    storeData('projects', projects);
     projectsView();
 }
 
@@ -89,9 +89,10 @@ const projectsView = () => {
 
 const projectsBuilder = (e) => {
     e.preventDefault();
+    const projects = getProjects();
     projects.push(projectFactory());
-    storeProjects();
+    storeData('projects', projects);
     projectsView();
 }
 
-export { projectsBuilder, projectsView, editProject, iconFactory, projects };
+export { projectsBuilder, projectsView, editProject, iconFactory, projects, projectsDisplay };

@@ -1,6 +1,3 @@
-import { projects } from './projects';
-import { tasks } from './tasks';
-
 const storageAvailable = (type) => {
     let storage;
     try {
@@ -31,7 +28,6 @@ const storageAvailable = (type) => {
 let count = 0;
 const getCount = () => {
     storeData('count', count);
-    console.log(count);
     getData('count', count);
     count++;
     storeData('count', count);
@@ -47,19 +43,33 @@ const storeData = (name, value) => {
       }
 }
 
-const getData = (name, value) => {
+const getData = (name) => {
     if (storageAvailable('localStorage')) {
-        value = JSON.parse(localStorage.getItem(name));
+        let value = JSON.parse(localStorage.getItem(name));
+        if (name == 'tasks' && value == undefined) {
+            tasks = [];
+            storeTasks();
+        } else if (name == 'projects' && value == undefined) {
+            projects = [{name: 'General', description: 'Default project', projectId: '1'}];
+            console.log(projects);
+            storeProjects();
+        } 
         return value;
       } else {
+        let value;
+        if (name == 'tasks') {
+            value = [];
+        } else if (name == 'projects' && value == undefined) {
+            value = [{name: 'General', description: 'Default project', projectId: '1'}];
+        }
         return value;
       }
 }
 
 const storeTasks = () => storeData('tasks', tasks);
 const storeProjects = () => storeData('projects', projects);
-const getTasks = () => getData('tasks', tasks);
-const getProjects = () => getData('projects', projects);
+const getTasks = () => getData('tasks');
+const getProjects = () => getData('projects');
 
-export { storeTasks, storeProjects, getTasks, getProjects, getCount };
+export { storeTasks, storeProjects, getTasks, getProjects, getCount, storeData};
   

@@ -1,10 +1,8 @@
 import { refreshTasks, showDetails } from "./forms";
 import { displayDetails, generateTitles } from "./view";
-import { getProjects, getCount, getTasks, storeTasks } from "./storage";
+import { getProjects, getCount, getTasks, storeData } from "./storage";
 import { iconFactory } from "./projects";
 import checkboxIcon from './checkbox.svg';
-
-const tasks = [];
 
 const taskFactory = () => {
     const taskForm = document.getElementById('task-form');
@@ -82,18 +80,21 @@ const createTaskHeading = () => {
 
 const deleteTask = (e) => {
     const task = e.currentTarget.id;
-    const index = getTasks().map(i => i.taskId).indexOf(`${task}`);
+    const tasks = getTasks();
+    const index = tasks.map(i => i.taskId).indexOf(`${task}`);
     console.log(index);
     if (index > -1) {
-        getTasks().splice(index, 1);
+        tasks.splice(index, 1);
     }
+    storeData('tasks', tasks);
     refreshTasks();
 }
 
 const tasksBuilder = (e) => {
     e.preventDefault();
+    const tasks = getTasks();
     tasks.push(taskFactory());
-    storeTasks();
+    storeData('tasks', tasks);
     tasksDisplay(getTasks());
 }
 
@@ -103,4 +104,4 @@ const detailsFactory = (btnId) => {
     displayDetails(index, getTasks());
 }
 
-export { tasksBuilder, tasks, tasksDisplay, detailsFactory, deleteTask };
+export { tasksBuilder, tasksDisplay, detailsFactory, deleteTask };
