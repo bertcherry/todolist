@@ -1,13 +1,14 @@
-import { detailsFactory, tasks, tasksDisplay, lastTaskView } from "./tasks";
+import { detailsFactory, tasks, tasksDisplay } from "./tasks";
 import { editProject, iconFactory, projects, projectsView } from "./projects";
 import saveIcon from './save.svg';
-import { displayDetails, sortDate, sortPriority } from "./view";
+import { displayDetails, sortDate, sortPriority, lastTaskView, filterFactory } from "./view";
+import { getProjects, storeProjects, getTasks, storeTasks } from "./storage";
 
 const formDisplay = (formId) => {
     const formContainer = document.getElementById(formId).parentElement;
     
     const showForm = (e) => {
-        let btnId = e.target.id.toString();
+        let btnId = e.currentTarget.id.toString();
         if (btnId == undefined) {
 
         } else if (btnId.slice(0,4) == 'task') {
@@ -52,8 +53,10 @@ const saveValue = (e) => {
     let property = e.currentTarget.id;
     let array = e.currentTarget.parentElement.getAttribute('class');
     if (array == 'projects') {
+        getProjects();
         array = projects;
     } else if (array == 'tasks') {
+        getTasks();
         array = tasks;
     }
     const index = e.currentTarget.parentElement.id;
@@ -71,20 +74,25 @@ const saveValue = (e) => {
     } else if (property == 'dueDate') {
         array[index].dueDate = value;
     }
-    displayDetails(index, array);
     if (array == projects) {
+        storeProjects();
         projectsView();
     } else if (array == tasks) {
+        storeTasks();
+        console.log(lastTaskView);
         if (lastTaskView == null) {
-            tasksDisplay(tasks);
-        } else if (lastTaskView == sortDate.getDisplay) {
+            tasksDisplay(getTasks());
+        } else if (lastTaskView == 'date') {
             sortDate();
-        } else if (lastTaskView == sortPriority.getDisplay) {
+        } else if (lastTaskView == 'priority') {
             sortPriority();
+        } else if (lastTaskView.slice(0,7) == 'project') {
+            filterFactory('projectId', lastTaskView.slice(8));
         } else {
-            tasksDisplay(lastTaskView);
+            tasksDisplay(getTasks());
         }
     }
+    displayDetails(index, array);
 }
 
 const showTasks = formDisplay('task-form');

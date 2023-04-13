@@ -2,14 +2,22 @@ import { displayDetails, filterFactory } from "./view";
 import { showDetails } from "./forms";
 import pencilIcon from './pencil.svg';
 import deleteIcon from './delete.svg';
+import { storeProjects, getProjects } from "./storage";
 
-const projects = [{name: 'General', description: 'Default project'}]
+const projects = [{name: 'General', description: 'Default project', projectId: '1'}]
+
+const counter = () => {
+    let count = 1;
+    count++;
+    return count;
+}
 
 const projectFactory = () => {
     const projectForm = document.getElementById('project-form');
     const newProject = {
         name: projectForm.name.value,
-        description: projectForm.description.value
+        description: projectForm.description.value,
+        projectId: counter().toString()
     };
     projectForm.reset();
     return newProject;
@@ -20,7 +28,7 @@ const projectsDisplay = (listName, type) => {
     while (projectList.firstChild) {
         projectList.removeChild(projectList.lastChild);
     }
-    for (const project of projects) {
+    for (const project of getProjects()) {
         const projectItem = document.createElement(type);
         if (type === 'option') {
             projectItem.value = project.name;
@@ -34,7 +42,8 @@ const projectsDisplay = (listName, type) => {
             projectLink.id = project.name;
             projectLink.textContent = project.name;
             projectDiv.appendChild(projectLink);
-            projectLink.addEventListener('click', filterFactory('project', project.name).filterTasks);
+            //filter using projectId instead of name
+            projectLink.addEventListener('click', filterFactory('projectId', project.projectId).filterTasks);
             projectDiv.appendChild(iconFactory('edit', pencilIcon, showDetails.showForm, project));
             projectDiv.appendChild(iconFactory('delete', deleteIcon, deleteProject, project));
             projectItem.appendChild(projectDiv);
@@ -70,12 +79,13 @@ const deleteProject = (e) => {
     if (index > -1) {
         projects.splice(index, 1);
     }
+    storeProjects();
     projectsView();
 }
 
 const editProject = (btnId) => {
-    const index = projects.map(i => i.name).indexOf(`${btnId}`);
-    displayDetails(index, projects);
+    const index = getProjects().map(i => i.name).indexOf(`${btnId}`);
+    displayDetails(index, getProjects());
 }
 
 const projectsView = () => {
@@ -86,6 +96,7 @@ const projectsView = () => {
 const projectsBuilder = (e) => {
     e.preventDefault();
     projects.push(projectFactory());
+    storeProjects();
     projectsView();
 }
 

@@ -1,8 +1,14 @@
 import { showDetails } from "./forms";
 import { displayDetails, generateTitles } from "./view";
+import { getProjects, getTasks, storeTasks } from "./storage";
 
 const tasks = [];
-let lastTaskView = null;
+
+const counter = () => {
+    let count = 0;
+    count++;
+    return count;
+}
 
 const taskFactory = () => {
     const taskForm = document.getElementById('task-form');
@@ -10,8 +16,10 @@ const taskFactory = () => {
         title: taskForm.title.value,
         description: taskForm.description.value,
         project: taskForm.project.value,
+        projectId: getProjects().at(getProjects().map(i => i.projectId).indexOf(taskForm.project.value)).projectId,
         priority: taskForm.priority.value,
         dueDate: taskForm.dueDate.value,
+        taskId: counter().toString()
     };
     taskForm.reset();
     return newTask;
@@ -27,6 +35,7 @@ const tasksDisplay = (tasksView) => {
         const taskDiv = document.createElement('div');
         taskDiv.classList.add('task');
         taskList.appendChild(taskDiv);
+        console.log(task.taskId);
         for (const property in task) {
             const propertyDiv = document.createElement('div');
             propertyDiv.classList.add(`${property}`);
@@ -41,7 +50,7 @@ const tasksDisplay = (tasksView) => {
                     propertyDiv.textContent = 'Low';
                     taskDiv.classList.add('priority-low');
                 }
-            } else if (`${property}` === 'description') {
+            } else if (`${property}` === 'description' || `${property}` === 'taskId' || `${property}` === 'projectId') {
                 continue;
             } else {
                 propertyDiv.textContent = `${task[property]}`; 
@@ -49,20 +58,18 @@ const tasksDisplay = (tasksView) => {
             taskDiv.appendChild(propertyDiv);
         }
         const detailsBtn = document.createElement('button');
-        detailsBtn.id = 'task-' + tasks.indexOf(task);
+        detailsBtn.id = 'task-' + task.taskId;
         detailsBtn.addEventListener('click', showDetails.showForm);
         detailsBtn.textContent = 'Details';
         taskDiv.appendChild(detailsBtn);
     }
-    lastTaskView = tasksView;
-    return lastTaskView;
 }
 
 const createTaskHeading = () => {
     const taskHeading = document.createElement('div');
     taskHeading.classList.add('task-heading');
-    for (const property in tasks.at(0)) {
-        if (`${property}` === 'description') {
+    for (const property in getTasks().at(0)) {
+        if (`${property}` === 'description' || `${property}` === 'taskId' || `${property}` === 'projectId') {
             continue;
         }
         const propertyDiv = document.createElement('div');
@@ -76,12 +83,14 @@ const createTaskHeading = () => {
 const tasksBuilder = (e) => {
     e.preventDefault();
     tasks.push(taskFactory());
-    tasksDisplay(tasks);
+    storeTasks();
+    tasksDisplay(getTasks());
 }
 
 const detailsFactory = (btnId) => {
-    const taskId = btnId.slice(5);
-    displayDetails(taskId, tasks);
+    const taskNum = btnId.slice(5);
+    const index = getTasks().map(i => i.taskId).indexOf(`${taskNum}`);
+    displayDetails(index, getTasks());
 }
 
-export { tasksBuilder, tasks, tasksDisplay, lastTaskView, detailsFactory};
+export { tasksBuilder, tasks, tasksDisplay, detailsFactory};
