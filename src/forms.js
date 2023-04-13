@@ -51,8 +51,8 @@ const editSelector = (key, value, text) => {
     const input = document.createElement('select');
     input.setAttribute('name', key);
     input.id = key;
-    projectsDisplay('#edit-project', 'option');
     value.appendChild(input);
+    projectsDisplay('#edit-project', 'option');
 }
 
 const editValue = (e) => {

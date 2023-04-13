@@ -4,8 +4,6 @@ import pencilIcon from './pencil.svg';
 import deleteIcon from './delete.svg';
 import { storeData, getProjects, getCount } from "./storage";
 
-const projects = [{name: 'General', description: 'Default project', projectId: '1'}];
-
 const projectFactory = () => {
     const projectForm = document.getElementById('project-form');
     const newProject = {
@@ -55,6 +53,7 @@ const iconFactory = (type, reference, action, focus) => {
     if (typeof focus == 'object') {
         btn.id = focus.name;
         img.id = focus.name;
+        const projects = getProjects();
         if (projects.length == 1 && projects.indexOf(focus) == 0 && type == 'delete' && focus.dueDate == undefined) {
             btn.disabled = true;
         }
@@ -95,4 +94,4 @@ const projectsBuilder = (e) => {
     projectsView();
 }
 
-export { projectsBuilder, projectsView, editProject, iconFactory, projects, projectsDisplay };
+export { projectsBuilder, projectsView, editProject, iconFactory, projectsDisplay };
