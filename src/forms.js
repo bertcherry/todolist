@@ -99,6 +99,11 @@ const saveValue = (e) => {
     const value = e.currentTarget.previousSibling.firstChild.value;
     if (property == 'name') {
         array[index].name = value;
+        for (const task of tasks) {
+            if (task.projectId == array[index].projectId) {
+                task.project = array[index].name;
+            }
+        }
     } else if (property == 'title') {
         array[index].title = value;
     } else if (property == 'description') {
@@ -113,10 +118,9 @@ const saveValue = (e) => {
     if (array == projects) {
         storeData('projects', projects);
         projectsView();
-    } else if (array == tasks) {
-        storeData('tasks', tasks);
-        refreshTasks();
     }
+    storeData('tasks', tasks);
+    refreshTasks();
     displayDetails(index, array);
 }
 
