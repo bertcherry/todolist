@@ -92,4 +92,4 @@ const displayDetails = (index, array) => {
         }
 }
 
-export { filterFactory, displayDetails, generateTitles, sortDate, sortPriority, lastTaskView };
+export { filterFactory, displayDetails, generateTitles, sortDate, sortPriority, lastTaskView, capitalizeProperty };

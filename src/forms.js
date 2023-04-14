@@ -1,7 +1,7 @@
 import { detailsFactory, tasksDisplay } from "./tasks";
 import { editProject, iconFactory, projects, projectsView, projectsDisplay } from "./projects";
 import saveIcon from './save.svg';
-import { displayDetails, sortDate, sortPriority, lastTaskView, filterFactory } from "./view";
+import { displayDetails, sortDate, sortPriority, lastTaskView, filterFactory, capitalizeProperty } from "./view";
 import { getProjects, storeData, getTasks } from "./storage";
 
 const formDisplay = (formId) => {
@@ -58,6 +58,30 @@ const editSelector = (key, value, text) => {
     selected.setAttribute('selected', '');
 }
 
+const editRadio = (key, value, text) => {
+    const fieldset = document.createElement('fieldset');
+    fieldset.appendChild(radioInput(key, 'high', 3));
+    fieldset.appendChild(radioInput(key, 'medium', 2));
+    fieldset.appendChild(radioInput(key, 'low', 1));
+    value.appendChild(fieldset);
+    //need to fix saveValue for the radio selection
+}
+
+const radioInput = (group, option, rank) => {
+    const radioDiv = document.createElement('div');
+    const input = document.createElement('input');
+    input.setAttribute('type', 'radio');
+    input.setAttribute('name', group);
+    input.id = option;
+    input.setAttribute('value', rank);
+    const label = document.createElement('label');
+    label.setAttribute('for', option);
+    label.textContent =capitalizeProperty(option);
+    radioDiv.appendChild(input);
+    radioDiv.appendChild(label);
+    return radioDiv;
+}
+
 const editValue = (e) => {
     const value = e.currentTarget.previousSibling;
     const text = value.textContent;
@@ -68,6 +92,8 @@ const editValue = (e) => {
         editTextArea(key, value, text);
     } else if (key == 'edit-project') {
         editSelector(key, value, text);
+    } else if (key == 'edit-priority') {
+        editRadio(key, value, text);
     } else {
         editText(key, value, text);
     }
