@@ -53,6 +53,9 @@ const editSelector = (key, value, text) => {
     input.id = key;
     value.appendChild(input);
     projectsDisplay('#edit-project', 'option');
+    const selected = document.querySelector(`#edit-project
+        [value='${text}']`);
+    selected.setAttribute('selected', '');
 }
 
 const editValue = (e) => {
