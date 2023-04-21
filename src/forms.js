@@ -213,8 +213,8 @@ const refreshTasks = () => {
         sortDate();
     } else if (lastTaskView == 'priority') {
         sortPriority();
-    } else if (lastTaskView.slice(0,7) == 'project') {
-        filterFactory('projectId', lastTaskView.slice(8));
+    } else if (lastTaskView.slice(0,9) == 'projectId') {
+        filterFactory('projectId', lastTaskView.slice(10)).filterTasks();
     } else {
         tasksDisplay(getTasks());
     }

@@ -34,7 +34,7 @@ const projectsDisplay = (listName, type) => {
             projectLink.id = project.name;
             projectLink.textContent = project.name;
             projectDiv.appendChild(projectLink);
-            projectLink.addEventListener('click', filterFactory('projectId', project.projectId).filterTasks);
+            projectLink.addEventListener('click', filterFactory('projectId', project.projectId).filterTasksClick);
             projectDiv.appendChild(iconFactory('edit', pencilIcon, showDetails.showForm, project));
             projectDiv.appendChild(iconFactory('delete', deleteIcon, deleteProject, project));
             projectItem.appendChild(projectDiv);
