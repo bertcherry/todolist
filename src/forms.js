@@ -177,19 +177,23 @@ const editValue = (e) => {
     const value = e.currentTarget.previousSibling;
     const text = value.textContent;
     const key = e.currentTarget.id;
-    value.textContent = '';
-    value.parentElement.removeChild(value.parentElement.lastChild);
-    const form = document.getElementById(`${type}-form`);
-    value.parentElement.appendChild(form);
+    const parent = e.currentTarget.parentElement;
+    while (parent.firstChild) {
+        parent.removeChild(parent.lastChild);
+    }
+    //value.parentElement.removeChild(value.parentElement.lastChild);
+    const form = document.createElement('form');
+    form.id = `${key}-form`;
+    parent.appendChild(form);
     //insert a form in here to append the edit values to, currently passed as "value"
     if (key == 'description') {
-        editTextArea(key, form, text);
+        editTextArea(key, key, text);
     } else if (key == 'project') {
-        editSelector(key, form, text);
+        editSelector(key, key, text);
     } else if (key == 'priority') {
-        editRadio(key, form, text);
+        editRadio(key, key, text);
     } else {
-        editText(key, form, text);
+        editText(key, key, text);
     }
     form.appendChild(iconFactory('save', saveIcon, saveValue, key));
 }
@@ -209,8 +213,10 @@ const refreshTasks = () => {
 }
 
 const saveValue = (e) => {
-    let property = e.currentTarget.id.slice(5);
-    let array = e.currentTarget.parentElement.getAttribute('class');
+    e.preventDefault();
+    let property = e.currentTarget.id;
+    let array = e.currentTarget.parentElement.parentElement.getAttribute('class');
+    console.log(array);
     const projects = getProjects();
     const tasks = getTasks();
     if (array == 'projects') {
@@ -218,31 +224,29 @@ const saveValue = (e) => {
     } else if (array == 'tasks') {
         array = tasks;
     }
-    const index = e.currentTarget.parentElement.id;
-    let value;
-    if (property == 'priority') {
-        //need to log what this value is correctly
-    } else {
-        value = e.currentTarget.previousSibling.firstChild.value;
-    }
+    const index = e.currentTarget.parentElement.parentElement.id;
+    console.log(index);
+    const form = document.getElementById(`${property}-form`);
+    let inputValue = document.getElementById(property).value;
     if (property == 'name') {
-        array[index].name = value;
+        array[index].name = inputValue;
         for (const task of tasks) {
             if (task.projectId == array[index].projectId) {
                 task.project = array[index].name;
             }
         }
     } else if (property == 'title') {
-        array[index].title = value;
+        array[index].title = inputValue;
     } else if (property == 'description') {
-        array[index].description = value;
+        array[index].description = inputValue;
     } else if (property == 'project') {
-        array[index].project = value;
-        array[index].projectId = projects[projects.map(i => i.name).indexOf(`${value}`)].projectId;
+        array[index].project = inputValue;
+        array[index].projectId = projects[projects.map(i => i.name).indexOf(`${inputValue}`)].projectId;
     } else if (property == 'priority') {
-        array[index].priority = value;
+        inputValue = form.priority.value;
+        array[index].priority = inputValue;
     } else if (property == 'dueDate') {
-        array[index].dueDate = value;
+        array[index].dueDate = inputValue;
     }
     if (array == projects) {
         storeData('projects', projects);

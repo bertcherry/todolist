@@ -65,10 +65,13 @@ const capitalizeProperty = (property) => {
 
 const displayDetails = (index, array) => {
     const item = array.at(index);
-    const detailsDiv = document.getElementById('details');
-        while (detailsDiv.firstChild) {
-            detailsDiv.removeChild(detailsDiv.lastChild);
-        }
+    const formContainer = document.getElementById('form-container');
+    const detailsDiv = document.createElement('div');
+    detailsDiv.id = 'details';
+    formContainer.appendChild(detailsDiv);
+        //while (detailsDiv.firstChild) {
+        //    detailsDiv.removeChild(detailsDiv.lastChild);
+        //}
         for (const property in item) {
             if (`${property}` === 'taskId' || `${property}` === 'projectId') {
                 continue;

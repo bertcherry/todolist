@@ -179,7 +179,8 @@ img {
     background-color: rgba(0,0,0,.5);
 }
 
-form, 
+#task-form,
+#project-form, 
 #details {
     display: flex;
     flex-direction: column;
