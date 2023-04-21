@@ -142,7 +142,6 @@ const editRadio = (key, type, text) => {
     fieldset.appendChild(radioInput(key, 'low', 1));
     inputWrapper.appendChild(fieldset);
     form.appendChild(inputWrapper);
-    //need to fix saveValue for the radio selection? -- has to come from a form
 }
 
 const radioInput = (group, option, rank) => {
@@ -181,11 +180,9 @@ const editValue = (e) => {
     while (parent.firstChild) {
         parent.removeChild(parent.lastChild);
     }
-    //value.parentElement.removeChild(value.parentElement.lastChild);
     const form = document.createElement('form');
     form.id = `${key}-form`;
     parent.appendChild(form);
-    //insert a form in here to append the edit values to, currently passed as "value"
     if (key == 'description') {
         editTextArea(key, key, text);
     } else if (key == 'project') {
