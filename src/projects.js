@@ -83,7 +83,6 @@ const editProject = (btnId) => {
 
 const projectsView = () => {
     projectsDisplay('.project-list', 'li');
-    projectsDisplay('#project', 'option');
 }
 
 const projectsBuilder = (e) => {
