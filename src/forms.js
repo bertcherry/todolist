@@ -224,7 +224,6 @@ const saveValue = (e) => {
     e.preventDefault();
     let property = e.currentTarget.id;
     let array = e.currentTarget.parentElement.parentElement.getAttribute('class');
-    console.log(array);
     const projects = getProjects();
     const tasks = getTasks();
     if (array == 'projects') {
@@ -233,7 +232,6 @@ const saveValue = (e) => {
         array = tasks;
     }
     const index = e.currentTarget.parentElement.parentElement.id;
-    console.log(index);
     const form = document.getElementById(`${property}-form`);
     let inputValue = document.getElementById(property).value;
     if (property == 'name') {
