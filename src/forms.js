@@ -1,16 +1,18 @@
-import { detailsFactory, tasksDisplay } from "./tasks";
+import { detailsFactory, tasksDisplay, tasksBuilder } from "./tasks";
 import { editProject, iconFactory, projects, projectsView, projectsDisplay } from "./projects";
 import saveIcon from './save.svg';
-import { displayDetails, sortDate, sortPriority, lastTaskView, filterFactory, capitalizeProperty } from "./view";
+import { displayDetails, sortDate, sortPriority, lastTaskView, filterFactory, capitalizeProperty, generateTitles } from "./view";
 import { getProjects, storeData, getTasks } from "./storage";
 
-const formDisplay = (formId) => {
-    const formContainer = document.getElementById(formId).parentElement;
+const formDisplay = () => {
+    const formContainer = document.getElementById('form-container');
     
     const showForm = (e) => {
         let btnId = e.currentTarget.id.toString();
         if (btnId == undefined) {
 
+        } else if (btnId == 'task-btn') {
+            createTaskForm();
         } else if (btnId.slice(0,4) == 'task') {
             detailsFactory(btnId);
         } else if (btnId.slice(0, -3) !== 'btn') {
@@ -23,48 +25,124 @@ const formDisplay = (formId) => {
     function hideForm(e) {
         if (e.target === formContainer) {
             formContainer.style.display = 'none'; 
+            while (formContainer.children[1]) {
+                formContainer.removeChild(formContainer.lastChild);
+            }
         }
     }
 
     return { showForm };
 }
 
-const editText = (key, value, text) => {
+const createTaskForm = () => {
+    createForm('task');
+    editText('title', 'task', '');
+    editTextArea('description', 'task', '');
+    //change this to a date picker once package is linked
+    editText('dueDate', 'task', '');
+    editRadio('priority', 'task', '');
+    editSelector('project', 'task', '');
+    addSubmit('task', 'Add Task');
+    const taskForm = document.getElementById('task-form');
+    taskForm.addEventListener('submit', tasksBuilder);
+}
+
+//type can be task or project
+const createForm = (type) => {
+    const formContainer = document.getElementById('form-container');
+    const form = document.createElement('form');
+    form.id = `${type}-form`;
+    formContainer.appendChild(form);
+}
+
+const requiredLabel = (key) => {
+    const label = document.createElement('label');
+    label.setAttribute('for', key);
+    generateTitles(key, label);
+    const required = document.createElement('span');
+    required.textContent = '*';
+    required.setAttribute('aria-label', 'required');
+    label.appendChild(required);
+    return label;
+}
+
+const optionalLabel = (key) => {
+    const label = document.createElement('label');
+    label.setAttribute('for', key);
+    generateTitles(key, label);
+    return label;
+}
+
+//include titles and labels in each of these
+const editText = (key, type, text) => {
+    const form = document.getElementById(`${type}-form`);
+    const inputWrapper = document.createElement('div');
+    inputWrapper.classList.add('input-wrapper');
     const input = document.createElement('input');
     input.setAttribute('type', 'text');
     input.setAttribute('name', key);
     input.id = key;
     input.setAttribute('placeholder', text);
-    value.appendChild(input);
+    if (key === 'name' || key === 'title') {
+        input.setAttribute('required', '');
+        inputWrapper.appendChild(requiredLabel(key));
+    } else {
+        inputWrapper.appendChild(optionalLabel(key));
+    }
+    inputWrapper.appendChild(input);
+    form.appendChild(inputWrapper);
 }
 
-const editTextArea = (key, value, text) => {
+
+const editTextArea = (key, type, text) => {
+    const form = document.getElementById(`${type}-form`);
+    const inputWrapper = document.createElement('div');
+    inputWrapper.classList.add('input-wrapper');
     const input = document.createElement('textarea');
     input.setAttribute('cols', '30');
     input.setAttribute('rows', '10');
     input.id = key;
     input.setAttribute('placeholder', text);
-    value.appendChild(input);
+    inputWrapper.appendChild(optionalLabel(key));
+    inputWrapper.appendChild(input);
+    form.appendChild(inputWrapper);
 }
 
-const editSelector = (key, value, text) => {
+//add edit DueDate
+
+const editSelector = (key, type, text) => {
+    const form = document.getElementById(`${type}-form`);
+    const inputWrapper = document.createElement('div');
+    inputWrapper.classList.add('input-wrapper');
     const input = document.createElement('select');
     input.setAttribute('name', key);
     input.id = key;
-    value.appendChild(input);
-    projectsDisplay('#edit-project', 'option');
-    const selected = document.querySelector(`#edit-project
-        [value='${text}']`);
-    selected.setAttribute('selected', '');
+    input.setAttribute('required', '');
+    inputWrapper.appendChild(requiredLabel(key));
+    inputWrapper.appendChild(input);
+    form.appendChild(inputWrapper);
+    projectsDisplay('#project', 'option');
+    if (text !== '') {
+        const selected = document.querySelector(`#project
+            [value='${text}']`);
+        selected.setAttribute('selected', '');
+    }
 }
 
-const editRadio = (key, value, text) => {
+const editRadio = (key, type, text) => {
+    const form = document.getElementById(`${type}-form`);
+    const inputWrapper = document.createElement('div');
+    inputWrapper.classList.add('input-wrapper');
     const fieldset = document.createElement('fieldset');
+    const legend = document.createElement('legend');
+    generateTitles(key, legend);
+    fieldset.appendChild(legend);
     fieldset.appendChild(radioInput(key, 'high', 3));
     fieldset.appendChild(radioInput(key, 'medium', 2));
     fieldset.appendChild(radioInput(key, 'low', 1));
-    value.appendChild(fieldset);
-    //need to fix saveValue for the radio selection?
+    inputWrapper.appendChild(fieldset);
+    form.appendChild(inputWrapper);
+    //need to fix saveValue for the radio selection? -- has to come from a form
 }
 
 const radioInput = (group, option, rank) => {
@@ -82,24 +160,38 @@ const radioInput = (group, option, rank) => {
     return radioDiv;
 }
 
+const addSubmit = (type, text) => {
+    const form = document.getElementById(`${type}-form`);
+    const inputWrapper = document.createElement('div');
+    inputWrapper.classList.add('input-wrapper');
+    const submitBtn = document.createElement('button');
+    submitBtn.setAttribute('type', 'submit');
+    submitBtn.textContent = text;
+    inputWrapper.appendChild(submitBtn);
+    form.appendChild(inputWrapper);
+}
+
 //add a date picker input for dueDate edit
 
 const editValue = (e) => {
     const value = e.currentTarget.previousSibling;
     const text = value.textContent;
-    const key = 'edit-' + e.currentTarget.id;
+    const key = e.currentTarget.id;
     value.textContent = '';
     value.parentElement.removeChild(value.parentElement.lastChild);
-    if (key == 'edit-description') {
-        editTextArea(key, value, text);
-    } else if (key == 'edit-project') {
-        editSelector(key, value, text);
-    } else if (key == 'edit-priority') {
-        editRadio(key, value, text);
+    const form = document.getElementById(`${type}-form`);
+    value.parentElement.appendChild(form);
+    //insert a form in here to append the edit values to, currently passed as "value"
+    if (key == 'description') {
+        editTextArea(key, form, text);
+    } else if (key == 'project') {
+        editSelector(key, form, text);
+    } else if (key == 'priority') {
+        editRadio(key, form, text);
     } else {
-        editText(key, value, text);
+        editText(key, form, text);
     }
-    value.parentElement.appendChild(iconFactory('save', saveIcon, saveValue, key));
+    form.appendChild(iconFactory('save', saveIcon, saveValue, key));
 }
 
 const refreshTasks = () => {

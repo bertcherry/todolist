@@ -41,50 +41,8 @@
         </div>
     </div>
 
-    <div class="task-form form-container">
-        <form action="" id="task-form">
-            <div class="help-text">
-                Required fields are marked with <span aria-label="required">*</span>
-            </div>
-            <div class="input-wrapper">
-                <label for="title">Title<span aria-label="required">*</span></label>
-                <input type="text" name="title" id="title" required>
-            </div>
-            <div class="input-wrapper">
-                <label for="description">Description</label>
-                <textarea name="description" id="description" cols="30" rows="10"></textarea>
-            </div>
-            <div class="input-wrapper">
-                <label for="dueDate">Due Date<span aria-label="required">*</span></label>
-                <input type="date" name="dueDate" id="dueDate" required>
-            </div>
-            <div class="input-wrapper">
-                <fieldset>
-                    <legend>Priority</legend>
-                    <div>
-                        <input type="radio" name="priority" id="high" value="3">
-                        <label for="high">High</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="priority" id="medium" value="2">
-                        <label for="medium">Medium</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="priority" id="low" value="1">
-                        <label for="low">Low</label>
-                    </div>
-                </fieldset>
-            </div>
-            <div class="input-wrapper">
-                <label for="project">Project<span aria-label="required">*</span></label>
-                <select name="project" id="project" required>
-                    <!--Populate project options from projects array as option->value/textContent-->
-                </select>
-            </div>
-            <div class="input-wrapper">
-                <button type="submit">Add Task</button>
-            </div>
-        </form>
+    <div class="task-form form-container" id="form-container">
+        <button class="close-form">X</button>
     </div>
 
     <div class="project-form form-container">
