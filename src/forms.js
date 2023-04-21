@@ -64,7 +64,7 @@ const editRadio = (key, value, text) => {
     fieldset.appendChild(radioInput(key, 'medium', 2));
     fieldset.appendChild(radioInput(key, 'low', 1));
     value.appendChild(fieldset);
-    //need to fix saveValue for the radio selection
+    //need to fix saveValue for the radio selection?
 }
 
 const radioInput = (group, option, rank) => {
@@ -81,6 +81,8 @@ const radioInput = (group, option, rank) => {
     radioDiv.appendChild(label);
     return radioDiv;
 }
+
+//add a date picker input for dueDate edit
 
 const editValue = (e) => {
     const value = e.currentTarget.previousSibling;
@@ -125,7 +127,12 @@ const saveValue = (e) => {
         array = tasks;
     }
     const index = e.currentTarget.parentElement.id;
-    const value = e.currentTarget.previousSibling.firstChild.value;
+    let value;
+    if (property == 'priority') {
+        //need to log what this value is correctly
+    } else {
+        value = e.currentTarget.previousSibling.firstChild.value;
+    }
     if (property == 'name') {
         array[index].name = value;
         for (const task of tasks) {
@@ -139,6 +146,7 @@ const saveValue = (e) => {
         array[index].description = value;
     } else if (property == 'project') {
         array[index].project = value;
+        array[index].projectId = projects[projects.map(i => i.name).indexOf(`${value}`)].projectId;
     } else if (property == 'priority') {
         array[index].priority = value;
     } else if (property == 'dueDate') {

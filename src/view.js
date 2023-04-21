@@ -84,7 +84,17 @@ const displayDetails = (index, array) => {
             const propertyName = document.createElement('div');
             generateTitles(property, propertyName);
             const propertyValue = document.createElement('div');
+            if (`${property}` === 'priority') {
+                if (`${item[property]}` === '3') {
+                    propertyValue.textContent = 'High';
+                } else if (`${item[property]}` === '2') {
+                    propertyValue.textContent = 'Medium';
+                } else if (`${item[property]}` === '1') {
+                    propertyValue.textContent = 'Low';
+                }
+            } else {
             propertyValue.textContent = `${item[property]}`;
+            }
             detailsDiv.appendChild(propertyDiv);
             propertyDiv.appendChild(propertyName);
             propertyDiv.appendChild(propertyValue);
