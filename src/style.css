@@ -180,7 +180,7 @@ img {
 }
 
 #task-form,
-#project-form, 
+#projects-form, 
 #details {
     display: flex;
     flex-direction: column;

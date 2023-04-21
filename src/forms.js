@@ -1,5 +1,5 @@
 import { detailsFactory, tasksDisplay, tasksBuilder } from "./tasks";
-import { editProject, iconFactory, projects, projectsView, projectsDisplay } from "./projects";
+import { editProject, iconFactory, projects, projectsView, projectsDisplay, projectsBuilder } from "./projects";
 import saveIcon from './save.svg';
 import { displayDetails, sortDate, sortPriority, lastTaskView, filterFactory, capitalizeProperty, generateTitles } from "./view";
 import { getProjects, storeData, getTasks } from "./storage";
@@ -13,6 +13,8 @@ const formDisplay = () => {
 
         } else if (btnId == 'task-btn') {
             createTaskForm();
+        } else if (btnId == 'projects-btn') {
+            createProjectsForm();
         } else if (btnId.slice(0,4) == 'task') {
             detailsFactory(btnId);
         } else if (btnId.slice(0, -3) !== 'btn') {
@@ -45,6 +47,15 @@ const createTaskForm = () => {
     addSubmit('task', 'Add Task');
     const taskForm = document.getElementById('task-form');
     taskForm.addEventListener('submit', tasksBuilder);
+}
+
+const createProjectsForm = () => {
+    createForm('projects');
+    editText('name', 'projects', '');
+    editTextArea('description', 'projects', '');
+    addSubmit('projects', 'Add Project');
+    const projectsForm = document.getElementById('projects-form');
+    projectsForm.addEventListener('submit', projectsBuilder);
 }
 
 //type can be task or project
@@ -255,7 +266,7 @@ const saveValue = (e) => {
 }
 
 const showTasks = formDisplay('task-form');
-const showProjects = formDisplay('project-form');
+const showProjects = formDisplay('projects-form');
 const showDetails = formDisplay('details');
 
 export { showTasks, showProjects, showDetails, editValue, refreshTasks };
