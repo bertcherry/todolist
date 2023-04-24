@@ -40,8 +40,7 @@ const createTaskForm = () => {
     createForm('task');
     editText('title', 'task', '');
     editTextArea('description', 'task', '');
-    //change this to a date picker once package is linked
-    editText('dueDate', 'task', '');
+    editDueDate('dueDate', 'task', '');
     editRadio('priority', 'task', '');
     editSelector('project', 'task', '');
     addSubmit('task', 'Add Task');
@@ -119,7 +118,21 @@ const editTextArea = (key, type, text) => {
     form.appendChild(inputWrapper);
 }
 
-//add edit DueDate
+const editDueDate = (key, type, text) => {
+    const form = document.getElementById(`${type}-form`);
+    const inputWrapper = document.createElement('div');
+    inputWrapper.classList.add('input-wrapper');
+    const input = document.createElement('input');
+    input.setAttribute('type', 'date');
+    input.setAttribute('name', key);
+    input.id = key;
+    inputWrapper.appendChild(requiredLabel(key));
+    inputWrapper.appendChild(input);
+    form.appendChild(inputWrapper);
+    if (text !== '') {
+        input.setAttribute('value', text);
+    }
+}
 
 const editSelector = (key, type, text) => {
     const form = document.getElementById(`${type}-form`);
@@ -200,7 +213,9 @@ const editValue = (e) => {
         editSelector(key, key, text);
     } else if (key == 'priority') {
         editRadio(key, key, text);
-    } else {
+    } else if (key == 'dueDate') {
+        editDueDate(key, key, text);
+    }else {
         editText(key, key, text);
     }
     form.appendChild(iconFactory('save', saveIcon, saveValue, key));
