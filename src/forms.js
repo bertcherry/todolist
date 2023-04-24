@@ -177,7 +177,7 @@ const radioInput = (group, option, rank) => {
     input.setAttribute('value', rank);
     const label = document.createElement('label');
     label.setAttribute('for', option);
-    label.textContent =capitalizeProperty(option);
+    label.textContent = capitalizeProperty(option);
     radioDiv.appendChild(input);
     radioDiv.appendChild(label);
     return radioDiv;
@@ -193,8 +193,6 @@ const addSubmit = (type, text) => {
     inputWrapper.appendChild(submitBtn);
     form.appendChild(inputWrapper);
 }
-
-//add a date picker input for dueDate edit
 
 const editValue = (e) => {
     const value = e.currentTarget.previousSibling;
