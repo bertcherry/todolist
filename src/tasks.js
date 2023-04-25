@@ -1,4 +1,4 @@
-import { refreshTasks, showDetails } from "./forms";
+import { refreshTasks, showDetails, showTasks } from "./forms";
 import { displayDetails, generateTitles } from "./view";
 import { getProjects, getCount, getTasks, storeData } from "./storage";
 import { iconFactory } from "./projects";
@@ -125,6 +125,7 @@ const tasksBuilder = (e) => {
     const tasks = getTasks();
     tasks.push(taskFactory());
     storeData('tasks', tasks);
+    showTasks.resetForm();
     tasksDisplay(getTasks());
 }
 

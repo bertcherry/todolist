@@ -1,11 +1,11 @@
 import { displayDetails, filterFactory } from "./view";
-import { showDetails } from "./forms";
+import { showDetails, showProjects } from "./forms";
 import pencilIcon from './pencil.svg';
 import deleteIcon from './delete.svg';
 import { storeData, getProjects, getCount } from "./storage";
 
 const projectFactory = () => {
-    const projectForm = document.getElementById('project-form');
+    const projectForm = document.getElementById('projects-form');
     const newProject = {
         name: projectForm.name.value,
         description: projectForm.description.value,
@@ -91,9 +91,11 @@ const projectsView = () => {
 
 const projectsBuilder = (e) => {
     e.preventDefault();
+    console.log('project accessed');
     const projects = getProjects();
     projects.push(projectFactory());
     storeData('projects', projects);
+    showProjects.resetForm();
     projectsView();
 }
 
