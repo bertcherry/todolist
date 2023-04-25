@@ -2,6 +2,7 @@ import { tasksDisplay } from './tasks';
 import { editValue } from './forms';
 import { iconFactory } from './projects';
 import { getTasks } from './storage';
+import { parseISO, isToday, isTomorrow, isYesterday, isThisWeek, format, isThisYear, isPast} from 'date-fns';
 import pencilIcon from './pencil.svg';
 
 let lastTaskView = null;
@@ -106,8 +107,23 @@ const displayDetails = (index, array) => {
             } else if (`${item[property]}` === '1') {
                 propertyValue.textContent = 'Low';
             }
+        } else if (`${property}` === 'dueDate') {
+            const date = parseISO(`${item[property]}`);
+            if (isToday(date)) {
+                propertyValue.textContent = 'Today';
+            } else if (isTomorrow(date)) {
+                propertyValue.textContent = 'Tomorrow';
+            } else if (isYesterday(date)) {
+                propertyValue.textContent = 'Yesterday';
+            } else if (isThisWeek(date)) {
+                propertyValue.textContent = format(date, 'EEEE');
+            } else if (isThisYear(date)) {
+                    propertyValue.textContent = format(date, 'MMMM do')
+            } else {
+                propertyValue.textContent = format(date, 'PP');
+            }
         } else {
-        propertyValue.textContent = `${item[property]}`;
+            propertyValue.textContent = `${item[property]}`;
         }
         detailsDiv.appendChild(propertyDiv);
         propertyDiv.appendChild(propertyName);
