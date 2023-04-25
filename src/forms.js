@@ -3,6 +3,7 @@ import { editProject, iconFactory, projects, projectsView, projectsDisplay, proj
 import saveIcon from './save.svg';
 import { displayDetails, sortDate, sortPriority, lastTaskView, filterFactory, capitalizeProperty, generateTitles } from "./view";
 import { getProjects, storeData, getTasks } from "./storage";
+import { format, parseISO } from 'date-fns';
 
 const formDisplay = () => {
     const formContainer = document.getElementById('form-container');
@@ -118,7 +119,7 @@ const editTextArea = (key, type, text) => {
     form.appendChild(inputWrapper);
 }
 
-const editDueDate = (key, type, text) => {
+const editDueDate = (key, type, taskId) => {
     const form = document.getElementById(`${type}-form`);
     const inputWrapper = document.createElement('div');
     inputWrapper.classList.add('input-wrapper');
@@ -129,9 +130,7 @@ const editDueDate = (key, type, text) => {
     inputWrapper.appendChild(requiredLabel(key));
     inputWrapper.appendChild(input);
     form.appendChild(inputWrapper);
-    if (text !== '') {
-        input.setAttribute('value', text);
-    }
+    input.setAttribute('value', format(parseISO(getTasks().at(taskId).dueDate), 'yyyy-MM-dd'));
 }
 
 const editSelector = (key, type, text) => {
@@ -166,6 +165,7 @@ const editRadio = (key, type, text) => {
     fieldset.appendChild(radioInput(key, 'low', 1));
     inputWrapper.appendChild(fieldset);
     form.appendChild(inputWrapper);
+    //add if text != '', radio option is pre-selected?
 }
 
 const radioInput = (group, option, rank) => {
@@ -212,8 +212,8 @@ const editValue = (e) => {
     } else if (key == 'priority') {
         editRadio(key, key, text);
     } else if (key == 'dueDate') {
-        editDueDate(key, key, text);
-    }else {
+        editDueDate(key, key, parent.id);
+    } else {
         editText(key, key, text);
     }
     form.appendChild(iconFactory('save', saveIcon, saveValue, key));
