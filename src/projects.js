@@ -46,7 +46,11 @@ const projectsDisplay = (listName, type) => {
 const iconFactory = (type, reference, action, focus) => {
     const btn = document.createElement('button');
     btn.classList.add(type + '-btn');
-    btn.setAttribute('aria-label', type);
+    if (type === 'check') {
+        btn.setAttribute('aria-label', 'complete task');
+    } else {
+        btn.setAttribute('aria-label', type);
+    }
     const img = document.createElement('img');
     img.src = reference;
     btn.appendChild(img);
