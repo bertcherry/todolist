@@ -76,6 +76,7 @@ const createCloseBtn = () => {
     const closeBtn = document.createElement('button');
     closeBtn.id = 'close-btn';
     closeBtn.textContent = 'X';
+    closeBtn.setAttribute('aria-label', 'close');
     return closeBtn;
 }
 
