@@ -1,5 +1,5 @@
 import { tasksDisplay } from './tasks';
-import { editValue } from './forms';
+import { editValue, createCloseBtn } from './forms';
 import { iconFactory } from './projects';
 import { getTasks } from './storage';
 import { parseISO, isToday, isTomorrow, isYesterday, isThisWeek, format, isThisYear, isPast} from 'date-fns';
@@ -130,6 +130,7 @@ const displayDetails = (index, array) => {
         propertyDiv.appendChild(propertyValue);
         propertyDiv.appendChild(iconFactory('edit', pencilIcon, editValue, property));
     }
+    detailsDiv.appendChild(createCloseBtn());
 }
 
 export { filterFactory, displayDetails, generateTitles, sortDateClick, sortDate, sortPriorityClick, sortPriority, lastTaskView, capitalizeProperty };

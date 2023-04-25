@@ -213,3 +213,9 @@ img {
     gap: 10px;
     background-color: var(--light);
 }
+
+#close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}

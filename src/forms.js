@@ -7,6 +7,7 @@ import { format, parseISO } from 'date-fns';
 
 const formDisplay = () => {
     const formContainer = document.getElementById('form-container');
+    let closeBtn = document.getElementById('close-btn');
     
     const showForm = (e) => {
         let btnId = e.currentTarget.id.toString();
@@ -23,10 +24,12 @@ const formDisplay = () => {
         }
         formContainer.style.display = 'block';
         formContainer.addEventListener('click', hideForm);
+        closeBtn = document.getElementById('close-btn');
+        closeBtn.addEventListener('click', hideForm);
     }
 
     function hideForm(e) {
-        if (e.target === formContainer) {
+        if (e.target === formContainer || e.target === closeBtn) {
             formContainer.style.display = 'none'; 
             while (formContainer.children[1]) {
                 formContainer.removeChild(formContainer.lastChild);
@@ -45,7 +48,9 @@ const createTaskForm = () => {
     editRadio('priority', 'task', '');
     editSelector('project', 'task', '');
     addSubmit('task', 'Add Task');
+    createCloseBtn('task');
     const taskForm = document.getElementById('task-form');
+    taskForm.appendChild(createCloseBtn());
     taskForm.addEventListener('submit', tasksBuilder);
 }
 
@@ -55,6 +60,7 @@ const createProjectsForm = () => {
     editTextArea('description', 'projects', '');
     addSubmit('projects', 'Add Project');
     const projectsForm = document.getElementById('projects-form');
+    projectsForm.appendChild(createCloseBtn());
     projectsForm.addEventListener('submit', projectsBuilder);
 }
 
@@ -64,6 +70,13 @@ const createForm = (type) => {
     const form = document.createElement('form');
     form.id = `${type}-form`;
     formContainer.appendChild(form);
+}
+
+const createCloseBtn = () => {
+    const closeBtn = document.createElement('button');
+    closeBtn.id = 'close-btn';
+    closeBtn.textContent = 'X';
+    return closeBtn;
 }
 
 const requiredLabel = (key) => {
@@ -130,7 +143,9 @@ const editDueDate = (key, type, taskId) => {
     inputWrapper.appendChild(requiredLabel(key));
     inputWrapper.appendChild(input);
     form.appendChild(inputWrapper);
-    input.setAttribute('value', format(parseISO(getTasks().at(taskId).dueDate), 'yyyy-MM-dd'));
+    if (taskId !== '') {
+        input.setAttribute('value', format(parseISO(getTasks().at(taskId).dueDate), 'yyyy-MM-dd'));
+    }
 }
 
 const editSelector = (key, type, text) => {
@@ -280,4 +295,4 @@ const showTasks = formDisplay('task-form');
 const showProjects = formDisplay('projects-form');
 const showDetails = formDisplay('details');
 
-export { showTasks, showProjects, showDetails, editValue, refreshTasks };
+export { showTasks, showProjects, showDetails, editValue, refreshTasks, createCloseBtn };
