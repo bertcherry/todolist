@@ -28,8 +28,6 @@ const formDisplay = () => {
         closeBtn.addEventListener('click', hideForm);
     }
 
-    //this isn't working to consistently hide the form on submission - works for projects but not tasks
-    // || e.target.getAttribute('type') === 'submit'
     const hideForm = (e) => {
         if (e.target === formContainer || e.target === closeBtn) {
             resetForm();
@@ -59,7 +57,6 @@ const createTaskForm = () => {
     const taskForm = document.getElementById('task-form');
     taskForm.appendChild(createCloseBtn());
     taskForm.addEventListener('submit', tasksBuilder);
-    //taskForm.addEventListener('submit', formDisplay.hideForm);
 }
 
 const createProjectsForm = () => {
@@ -70,7 +67,6 @@ const createProjectsForm = () => {
     const projectsForm = document.getElementById('projects-form');
     projectsForm.appendChild(createCloseBtn());
     projectsForm.addEventListener('submit', projectsBuilder);
-    //projectsForm.addEventListener('submit', formDisplay.hideForm);
 }
 
 //type can be task or project
