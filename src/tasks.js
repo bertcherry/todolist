@@ -2,7 +2,17 @@ import { refreshTasks, showDetails } from "./forms";
 import { displayDetails, generateTitles } from "./view";
 import { getProjects, getCount, getTasks, storeData } from "./storage";
 import { iconFactory } from "./projects";
+import { parseISO, isToday, isTomorrow, isYesterday, isThisWeek, format, isThisYear, isPast} from 'date-fns';
 import checkboxIcon from './checkbox.svg';
+
+const convertDate = (dateValue) => {
+    dateValue = dateValue.toString();
+    const year = dateValue.slice(0,4);
+    const month = parseInt(dateValue.slice(5,7)) - 1;
+    const day = dateValue.slice(8,10);
+    const converted = new Date(year, month, day);
+    return converted;
+}
 
 const taskFactory = () => {
     const taskForm = document.getElementById('task-form');
@@ -12,7 +22,7 @@ const taskFactory = () => {
         project: taskForm.project.value,
         projectId: getProjects().at(getProjects().map(i => i.name).indexOf(taskForm.project.value)).projectId,
         priority: taskForm.priority.value,
-        dueDate: taskForm.dueDate.value,
+        dueDate: convertDate(taskForm.dueDate.value),
         taskId: getCount().toString()
     };
     taskForm.reset();
@@ -47,7 +57,28 @@ const tasksDisplay = (tasksView) => {
                     propertyDiv.textContent = 'Low';
                     taskDiv.classList.add('priority-low');
                 }
-            } else if (`${property}` === 'description' || `${property}` === 'taskId' || `${property}` === 'projectId') {
+            } else if (`${property}` === 'dueDate') {
+                const date = parseISO(`${task[property]}`);
+                if (isToday(date)) {
+                    propertyDiv.textContent = 'Today';
+                    propertyDiv.classList.add('due-soon');
+                } else if (isTomorrow(date)) {
+                    propertyDiv.textContent = 'Tomorrow';
+                    propertyDiv.classList.add('due-soon');
+                } else if (isYesterday(date)) {
+                    propertyDiv.textContent = 'Yesterday';
+                } else if (isThisWeek(date)) {
+                    propertyDiv.textContent = format(date, 'EEEE');
+                } else if (isThisYear(date)) {
+                        propertyDiv.textContent = format(date, 'MMMM do')
+                } else {
+                    propertyDiv.textContent = format(date, 'PP');
+                }
+                if (isPast(date) && isToday(date) === false) {
+                    propertyDiv.classList.add('past-due');
+                }
+            }
+            else if (`${property}` === 'description' || `${property}` === 'taskId' || `${property}` === 'projectId') {
                 continue;
             } else {
                 propertyDiv.textContent = `${task[property]}`; 
