@@ -113,7 +113,6 @@ const deleteTask = (e) => {
     const task = e.currentTarget.id;
     const tasks = getTasks();
     const index = tasks.map(i => i.taskId).indexOf(`${task}`);
-    console.log(index);
     if (index > -1) {
         tasks.splice(index, 1);
     }
