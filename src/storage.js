@@ -25,10 +25,10 @@ const storageAvailable = (type) => {
     }
 }
 
-let count = 0;
+//fix count initialization
+
 const getCount = () => {
-    storeData('count', count);
-    getData('count', count);
+    let count = getData('count');
     count++;
     storeData('count', count);
     return count;
@@ -53,7 +53,9 @@ const getData = (name) => {
             projects = [{name: 'General', description: 'Default project', projectId: '1'}];
             console.log(projects);
             storeProjects();
-        } 
+        } else if (name == 'count' && value == undefined) {
+            value = 1;
+        }
         return value;
       } else {
         let value;
@@ -61,6 +63,9 @@ const getData = (name) => {
             value = [];
         } else if (name == 'projects' && value == undefined) {
             value = [{name: 'General', description: 'Default project', projectId: '1'}];
+        } else if (name == 'count' && value == undefined) {
+            let count;
+            count = 1;
         }
         return value;
       }

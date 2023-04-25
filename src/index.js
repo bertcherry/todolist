@@ -17,7 +17,6 @@ dateSorter.addEventListener('click', sortDateClick);
 const prioritySorter = document.getElementById('priority-sort');
 prioritySorter.addEventListener('click', sortPriorityClick);
 
-getCount();
 getProjects();
 tasksDisplay(getTasks());
 projectsView();
