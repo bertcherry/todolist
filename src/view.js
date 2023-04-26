@@ -81,6 +81,9 @@ const capitalizeProperty = (property) => {
 const displayDetails = (index, array) => {
     const item = array.at(index);
     const formContainer = document.getElementById('form-container');
+    while (formContainer.firstChild) {
+        formContainer.removeChild(formContainer.lastChild);
+    }
     const detailsDiv = document.createElement('div');
     detailsDiv.id = 'details';
     formContainer.appendChild(detailsDiv);
