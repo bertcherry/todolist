@@ -251,7 +251,9 @@ button[type="submit"] {
     background-color: var(--light);
 }
 
-#details > div > :first-child {
+#details > div > :first-child,
+.input-wrapper > label:first-child,
+legend {
     font-weight: 700;
 }
 
