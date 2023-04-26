@@ -251,7 +251,8 @@ button[type="submit"] {
     background-color: var(--light);
 }
 
-.projects {
+.projects,
+.input-wrapper {
     padding: 20px;
     display: flex;
     flex-direction: column;
