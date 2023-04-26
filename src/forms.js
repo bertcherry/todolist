@@ -161,8 +161,7 @@ const editSelector = (key, type, text) => {
     const input = document.createElement('select');
     input.setAttribute('name', key);
     input.id = key;
-    input.setAttribute('required', '');
-    inputWrapper.appendChild(requiredLabel(key));
+    inputWrapper.appendChild(optionalLabel(key));
     inputWrapper.appendChild(input);
     form.appendChild(inputWrapper);
     projectsDisplay('#project', 'option');
