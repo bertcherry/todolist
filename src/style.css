@@ -11,6 +11,7 @@
     --medium: #ffb60a;
     --low: #38fac6;
     --accent: #1fb7ea;
+    --middle: #154F60;
     --dark: #020f13;
     --light: #ffffff;
     --accent-light: #c8eff9;
@@ -20,6 +21,11 @@
 body, html {
     color: var(--dark);
     background-color: var(--light);
+}
+
+a,
+a:visited {
+    color: var(--middle);
 }
 
 ul {
