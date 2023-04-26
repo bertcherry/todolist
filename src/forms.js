@@ -190,6 +190,7 @@ const editRadio = (key, type, text) => {
 
 const radioInput = (group, option, rank) => {
     const radioDiv = document.createElement('div');
+    radioDiv.classList.add('radio-wrapper');
     const input = document.createElement('input');
     input.setAttribute('type', 'radio');
     input.setAttribute('name', group);

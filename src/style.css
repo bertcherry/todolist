@@ -269,3 +269,9 @@ button[type="submit"] {
     flex-direction: column;
     gap: 10px;
 }
+
+.radio-wrapper {
+    display: flex;
+    gap: .25em;
+    align-items: center;
+}
