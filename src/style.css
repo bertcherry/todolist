@@ -28,6 +28,10 @@ a:visited {
     color: var(--middle);
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 ul {
     appearance: none;
     list-style-type: circle;
@@ -131,7 +135,7 @@ button[type="submit"] {
 .task {
     grid-area: task;
     display: grid;
-    grid-template-columns: minmax(200px, 1fr) repeat(4, 100px);
+    grid-template-columns: minmax(200px, 1fr) 120px repeat(3, 100px);
     grid-template-areas: 
         "title project priority date details";
     padding: 5px 20px;
@@ -142,7 +146,7 @@ button[type="submit"] {
 
 .task-heading {
     display: grid;
-    grid-template-columns: 50px minmax(200px, 1fr) repeat(4, 100px);
+    grid-template-columns: 50px minmax(200px, 1fr) 120px repeat(3, 100px);
     grid-template-areas: 
         "checkbox title project priority date details";
     gap: 5px;

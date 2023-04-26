@@ -111,6 +111,9 @@ const editText = (key, type, text) => {
     const input = document.createElement('input');
     input.setAttribute('type', 'text');
     input.setAttribute('name', key);
+    if (key === 'name') {
+        input.setAttribute('maxlength', '12');
+    }
     input.id = key;
     input.setAttribute('placeholder', text);
     if (key === 'name' || key === 'title') {
