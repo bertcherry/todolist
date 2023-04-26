@@ -251,14 +251,6 @@ button[type="submit"] {
     background-color: var(--light);
 }
 
-.projects,
-.input-wrapper {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
 #details > div > :first-child {
     font-weight: 700;
 }
@@ -267,4 +259,13 @@ button[type="submit"] {
     position: absolute;
     top: 5px;
     right: 5px;
+    padding: 5px;
+}
+
+.projects,
+.input-wrapper {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
