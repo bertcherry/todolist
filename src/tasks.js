@@ -39,6 +39,7 @@ const tasksDisplay = (tasksView) => {
         const taskContainer = document.createElement('div');
         taskContainer.classList.add('task-container');
         taskContainer.appendChild(iconFactory('check', checkboxIcon, deleteTask, task.taskId));
+        console.log(taskContainer.firstChild.firstChild);
         const taskDiv = document.createElement('div');
         taskDiv.classList.add('task');
         taskContainer.appendChild(taskDiv);
